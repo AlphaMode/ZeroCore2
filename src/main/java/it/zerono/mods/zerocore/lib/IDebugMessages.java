@@ -20,7 +20,7 @@ package it.zerono.mods.zerocore.lib;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 import java.util.function.BiConsumer;
 
@@ -75,7 +75,7 @@ public interface IDebugMessages {
      * @param debuggable the other IDebuggable to query for messages
      * @param label      the unlocalized label for the other IDebuggable messages
      */
-    default void add(LogicalSide side, IDebuggable debuggable, String label) {
+    default void add(EnvType side, IDebuggable debuggable, String label) {
         this.add(side, debuggable, new TextComponent(label));
     }
 
@@ -89,7 +89,7 @@ public interface IDebugMessages {
      * @param debuggable the other IDebuggable to query for messages
      * @param label      the language resource key of the message to add as a label for the other IDebuggable messages
      */
-    void add(LogicalSide side, IDebuggable debuggable, Component label);
+    void add(EnvType side, IDebuggable debuggable, Component label);
 
     /**
      * Add messages from another IDebuggable to this messages list
@@ -103,7 +103,7 @@ public interface IDebugMessages {
      *                                     for the other IDebuggable messages
      * @param labelParameters              the values to insert in the label
      */
-    void add(LogicalSide side, IDebuggable debuggable, String labelFormatStringResourceKey, Object... labelParameters);
+    void add(EnvType side, IDebuggable debuggable, String labelFormatStringResourceKey, Object... labelParameters);
 
     default <T> void add(T debuggee, BiConsumer<IDebugMessages, T> consumer, String label) {
         this.add(debuggee, consumer, new TextComponent(label));

@@ -24,7 +24,7 @@ import it.zerono.mods.zerocore.lib.data.nbt.INestedSyncableEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import java.util.Optional;
 import java.util.Set;

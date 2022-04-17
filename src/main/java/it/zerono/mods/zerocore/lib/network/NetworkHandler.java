@@ -18,6 +18,8 @@
 
 package it.zerono.mods.zerocore.lib.network;
 
+import dev.cafeteria.fakeplayerapi.server.FakeServerPlayer;
+import me.pepperbell.simplenetworking.SimpleChannel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
@@ -41,11 +43,7 @@ public class NetworkHandler {
 
         this._nextIndex = 0;
         this._protocolVersion = protocolVersion;
-        this._channel = NetworkRegistry.ChannelBuilder.named(channelName)
-                .clientAcceptedVersions(this._protocolVersion::equals)
-                .serverAcceptedVersions(this._protocolVersion::equals)
-                .networkProtocolVersion(() -> this._protocolVersion)
-                .simpleChannel();
+        this._channel = new SimpleChannel(channelName);
     }
 
     /**
@@ -80,7 +78,7 @@ public class NetworkHandler {
      */
     public <T extends IModMessage> void sendToPlayer(final T message, final ServerPlayer player) {
 
-        if (!(player instanceof FakePlayer)) {
+        if (!(player instanceof FakeServerPlayer)) {
             this._channel.sendTo(message, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
         }
     }

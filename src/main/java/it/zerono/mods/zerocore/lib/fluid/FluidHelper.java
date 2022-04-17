@@ -20,10 +20,12 @@ package it.zerono.mods.zerocore.lib.fluid;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.github.fabricators_of_create.porting_lib.extensions.FluidExtensions;
 import it.zerono.mods.zerocore.internal.Lib;
 import it.zerono.mods.zerocore.lib.data.json.JSONHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -31,10 +33,10 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.EmptyFluidHandler;
 
 import java.util.Objects;
 
@@ -43,15 +45,15 @@ public final class FluidHelper {
     public static final IFluidHandler EMPTY_FLUID_HANDLER = EmptyFluidHandler.INSTANCE;
 
     public static ResourceLocation getFluidId(final Fluid fluid) {
-        return Objects.requireNonNull(fluid.getRegistryName());
+        return Objects.requireNonNull(Registry.FLUID.getKey(fluid));
     }
 
     public static ResourceLocation getFluidId(final FluidStack stack) {
-        return Objects.requireNonNull(stack.getFluid().getRegistryName());
+        return Objects.requireNonNull(Registry.FLUID.getKey(stack.getFluid()));
     }
 
     public static MutableComponent getFluidName(final Fluid fluid) {
-        return new TranslatableComponent(fluid.getAttributes().getTranslationKey());
+        return new TranslatableComponent(((FluidExtensions)fluid).getAttributes().getTranslationKey());
     }
 
     public static MutableComponent getFluidName(final FluidStack stack) {
@@ -67,17 +69,17 @@ public final class FluidHelper {
      * @param world         the world to witch the destination position belong
      * @param fillDirection the direction, relative to the destination handler, from witch the operation is performed
      * @param maxAmount     The largest amount of fluid that should be transferred
-     * @param action        if the action should be executed or only simulated
+     * @param sim        if the action should be executed or only simulated
      * @return the fluidStack that was transferred from the source to the destination
      */
     public static FluidStack tryFluidTransfer(IFluidHandler source, Level world, BlockPos destinationPosition,
-                                              Direction fillDirection, int maxAmount, IFluidHandler.FluidAction action) {
+                                              Direction fillDirection, int maxAmount, boolean sim) {
         return FluidUtil.getFluidHandler(world, destinationPosition, fillDirection)
                 .map(destination -> FluidUtil.tryFluidTransfer(destination, source, maxAmount, action.execute()))
                 .orElse(FluidStack.EMPTY);
     }
 
-    public static FluidStack stackFrom(final FluidStack stack, final int amount) {
+    public static FluidStack stackFrom(final FluidStack stack, final long amount) {
         return new FluidStack(stack.getFluid(), amount);
     }
 
@@ -129,10 +131,10 @@ public final class FluidHelper {
     public static JsonElement stackToJSON(final FluidStack stack) {
 
         final JsonObject json = new JsonObject();
-        final int count = stack.getAmount();
+        final long count = stack.getAmount();
 
         JSONHelper.jsonSetFluid(json, Lib.NAME_FLUID, stack.getFluid());
-        JSONHelper.jsonSetInt(json, Lib.NAME_COUNT, count);
+        JSONHelper.jsonSetLong(json, Lib.NAME_COUNT, count);
 
         if (stack.hasTag()) {
             JSONHelper.jsonSetNBT(json, Lib.NAME_NBT_TAG, Objects.requireNonNull(stack.getTag()));
@@ -142,7 +144,7 @@ public final class FluidHelper {
     }
 
     public static String toStringHelper(final FluidStack stack) {
-        return "FluidStack: " + stack.getAmount() + ' ' + stack.getFluid().getRegistryName();
+        return "FluidStack: " + stack.getAmount() + ' ' + Registry.FLUID.getKey(stack.getFluid());
     }
 
     //region internals

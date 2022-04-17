@@ -25,7 +25,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 /**
  * A network message to automatically sync a {@link ISyncableEntity} TileEntity over the network
@@ -66,7 +66,7 @@ public class ModSyncableTileMessage extends AbstractModTileMessage {
     //region AbstractModTileMessage
 
     @Override
-    protected void processTileEntityMessage(final LogicalSide sourceSide, final BlockEntity tileEntity) {
+    protected void processTileEntityMessage(final EnvType sourceSide, final BlockEntity tileEntity) {
 
         ISyncableEntity entity = null;
 

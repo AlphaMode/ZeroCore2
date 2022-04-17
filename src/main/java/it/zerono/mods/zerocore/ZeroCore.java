@@ -18,6 +18,8 @@
 
 package it.zerono.mods.zerocore;
 
+import com.mojang.brigadier.CommandDispatcher;
+import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import it.zerono.mods.zerocore.internal.Lib;
 import it.zerono.mods.zerocore.internal.command.ZeroCoreCommand;
 import it.zerono.mods.zerocore.internal.gamecontent.Content;
@@ -25,17 +27,12 @@ import it.zerono.mods.zerocore.internal.network.Network;
 import it.zerono.mods.zerocore.internal.proxy.ClientProxy;
 import it.zerono.mods.zerocore.internal.proxy.IProxy;
 import it.zerono.mods.zerocore.internal.proxy.ServerProxy;
-import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(value = ZeroCore.MOD_ID)
-public final class ZeroCore implements IModInitializationHandler {
+public final class ZeroCore implements ModInitializer {
 
     public static final String MOD_ID = "zerocore";
 
@@ -51,33 +48,22 @@ public final class ZeroCore implements IModInitializationHandler {
         return new ResourceLocation(MOD_ID, path);
     }
 
-    public ZeroCore() {
+    @Override
+    public void onInitialize() {
 
         s_instance = this;
-        s_proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonInit);
-        MinecraftForge.EVENT_BUS.addListener(this::onRegisterCommands);
+        s_proxy = EnvExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+        Network.initialize();
+        CommandRegistrationCallback.EVENT.register(this::onRegisterCommands);
         Lib.initialize();
         Content.initialize();
-    }
-
-    //region IModInitializationHandler
-
-    /**
-     * Called on both the physical client and the physical server to perform common initialization tasks
-     *
-     * @param event the event
-     */
-    @Override
-    public void onCommonInit(FMLCommonSetupEvent event) {
-        Network.initialize();
     }
 
     //endregion
     //region internals
 
-    private void onRegisterCommands(final RegisterCommandsEvent event) {
-        ZeroCoreCommand.register(event.getDispatcher());
+    private void onRegisterCommands(final CommandDispatcher<CommandSourceStack> dispatcher, boolean dedicated) {
+        ZeroCoreCommand.register(dispatcher);
     }
 
     private static ZeroCore s_instance;

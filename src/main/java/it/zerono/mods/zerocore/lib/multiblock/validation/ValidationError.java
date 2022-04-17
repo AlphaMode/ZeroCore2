@@ -44,10 +44,10 @@ package it.zerono.mods.zerocore.lib.multiblock.validation;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
+import net.fabricmc.api.EnvType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.fml.LogicalSide;
 
 import javax.annotation.Nullable;
 
@@ -76,7 +76,7 @@ public class ValidationError implements IDebuggable {
     //region IDebuggable
 
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
         messages.add(this.getChatMessage());
     }
 

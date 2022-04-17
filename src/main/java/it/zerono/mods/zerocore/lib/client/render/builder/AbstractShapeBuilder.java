@@ -25,15 +25,15 @@ import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.data.gfx.LightMap;
 import it.zerono.mods.zerocore.lib.data.gfx.UV;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 @SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class AbstractShapeBuilder implements IPrimitiveBuilder<Shape> {
 

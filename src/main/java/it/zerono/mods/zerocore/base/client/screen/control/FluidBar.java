@@ -30,12 +30,14 @@ import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.client.text.BindableTextComponent;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.util.NonNullSupplier;
-import net.minecraftforge.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -99,7 +101,7 @@ public class FluidBar
 
             final Fluid fluid = stack.getFluid();
             final ISprite fluidSprite = ModRenderHelper.getStillFluidSprite(fluid);
-            final Colour fluidTint = Colour.fromARGB(fluid.getAttributes().getColor());
+            final Colour fluidTint = Colour.fromARGB(FluidVariantRendering.getColor(FluidVariant.of(fluid)));
 
             this._bar.setBarSprite(fluidSprite);
             this._bar.setBarSpriteTint(fluidTint);

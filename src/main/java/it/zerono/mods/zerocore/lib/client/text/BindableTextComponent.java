@@ -19,8 +19,8 @@
 package it.zerono.mods.zerocore.lib.client.text;
 
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.common.util.NonNullFunction;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullFunction;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import java.util.function.Consumer;
 

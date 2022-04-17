@@ -26,8 +26,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.NonNullFunction;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullFunction;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import javax.annotation.Nullable;
 

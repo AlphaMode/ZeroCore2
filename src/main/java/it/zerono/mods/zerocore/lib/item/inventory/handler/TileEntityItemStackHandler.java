@@ -25,8 +25,8 @@ import it.zerono.mods.zerocore.lib.IDebuggable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.NonNullList;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.items.ItemStackHandler;
+import net.fabricmc.api.EnvType;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 
 import java.util.Objects;
 import java.util.function.BiPredicate;
@@ -73,7 +73,7 @@ public class TileEntityItemStackHandler extends ItemStackHandler implements IDeb
     //region IDebuggable
 
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
         DebuggableHelper.getDebugMessagesFor(messages, this);
     }
 

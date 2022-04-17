@@ -21,42 +21,38 @@ package it.zerono.mods.zerocore.lib.energy.adapter;
 import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.energy.*;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import team.reborn.energy.api.EnergyStorage;
 
 public final class ForgeEnergyAdapter {
 
     @Deprecated
-    public static IEnergyStorage wrap(final IWideEnergyReceiver receiver) {
-        return new IEnergyStorage() {
+    public static EnergyStorage wrap(final IWideEnergyReceiver receiver) {
+        return new EnergyStorage() {
 
             @Override
-            public int receiveEnergy(int maxReceive, boolean simulate) {
-                return (int)receiver.receiveEnergy(EnergySystem.ForgeEnergy, null, maxReceive, simulate);
+            public long insert(long maxAmount, TransactionContext transaction) {
+                return (long) receiver.receiveEnergy(EnergySystem.ForgeEnergy, null, maxAmount, transaction);
             }
 
             @Override
-            public int extractEnergy(int maxExtract, boolean simulate) {
+            public long extract(long maxAmount, TransactionContext transaction) {
                 return 0;
             }
 
             @Override
-            public int getEnergyStored() {
-                return (int)receiver.getEnergyStored(EnergySystem.ForgeEnergy, null);
+            public long getAmount() {
+                return (long) receiver.getEnergyStored(EnergySystem.ForgeEnergy, null);
             }
 
             @Override
-            public int getMaxEnergyStored() {
-                return (int)receiver.getCapacity(EnergySystem.ForgeEnergy, null);
+            public long getCapacity() {
+                return (long) receiver.getCapacity(EnergySystem.ForgeEnergy, null);;
             }
 
             @Override
-            public boolean canExtract() {
+            public boolean supportsExtraction() {
                 return false;
-            }
-
-            @Override
-            public boolean canReceive() {
-                return true;
             }
         };
     }

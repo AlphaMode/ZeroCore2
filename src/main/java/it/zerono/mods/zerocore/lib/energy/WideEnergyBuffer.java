@@ -24,7 +24,7 @@ import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 @SuppressWarnings({"unused", "WeakerAccess", "UnusedReturnValue"})
 public class WideEnergyBuffer
@@ -320,7 +320,7 @@ public class WideEnergyBuffer
     //region IDebuggable
 
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
 
         final EnergySystem sys = this.getEnergySystem();
 

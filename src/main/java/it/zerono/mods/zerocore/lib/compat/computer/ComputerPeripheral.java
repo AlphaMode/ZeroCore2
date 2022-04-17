@@ -27,7 +27,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 
 import javax.annotation.Nullable;
 import java.util.*;

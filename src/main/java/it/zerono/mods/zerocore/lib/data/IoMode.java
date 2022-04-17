@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 public enum IoMode implements IDebuggable {
 
@@ -64,7 +64,7 @@ public enum IoMode implements IDebuggable {
     //region IDebuggable
 
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
         messages.addUnlocalized("Mode: %1$s", this);
     }
 

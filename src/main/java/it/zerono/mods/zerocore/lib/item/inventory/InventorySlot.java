@@ -20,8 +20,8 @@ package it.zerono.mods.zerocore.lib.item.inventory;
 
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandlerModifiable;
 
 @SuppressWarnings({"WeakerAccess"})
 public class InventorySlot

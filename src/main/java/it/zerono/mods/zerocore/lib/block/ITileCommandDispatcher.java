@@ -19,7 +19,7 @@
 package it.zerono.mods.zerocore.lib.block;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -27,19 +27,19 @@ import java.util.function.Consumer;
 @FunctionalInterface
 public interface ITileCommandDispatcher {
 
-    void dispatch(LogicalSide source, String name, CompoundTag parameters);
+    void dispatch(EnvType source, String name, CompoundTag parameters);
 
     interface Builder<T extends AbstractModBlockEntity> {
 
         Builder<T> addHandler(String name, ITileCommandHandler<T> handler);
 
-        default ITileCommandDispatcher.Builder<T> addHandler(String name, BiConsumer<T, LogicalSide> handler) {
+        default ITileCommandDispatcher.Builder<T> addHandler(String name, BiConsumer<T, EnvType> handler) {
             return this.addHandler(name, (tile, source, parameters) -> handler.accept(tile, source));
         }
 
         default ITileCommandDispatcher.Builder<T> addServerHandler(String name, BiConsumer<T, CompoundTag> handler) {
             return this.addHandler(name, (tile, source, parameters) -> {
-                if (source.isClient()) {
+                if (source == EnvType.CLIENT) {
                     handler.accept(tile, parameters);
                 }
             });
@@ -47,7 +47,7 @@ public interface ITileCommandDispatcher {
 
         default ITileCommandDispatcher.Builder<T> addServerHandler(String name, Consumer<T> handler) {
             return this.addHandler(name, (tile, source, parameters) -> {
-                if (source.isClient()) {
+                if (source == EnvType.CLIENT) {
                     handler.accept(tile);
                 }
             });
@@ -55,7 +55,7 @@ public interface ITileCommandDispatcher {
 
         default ITileCommandDispatcher.Builder<T> addClientHandler(String name, BiConsumer<T, CompoundTag> handler) {
             return this.addHandler(name, (tile, source, parameters) -> {
-                if (source.isServer()) {
+                if (source == EnvType.SERVER) {
                     handler.accept(tile, parameters);
                 }
             });
@@ -63,7 +63,7 @@ public interface ITileCommandDispatcher {
 
         default ITileCommandDispatcher.Builder<T> addClientHandler(String name, Consumer<T> handler) {
             return this.addHandler(name, (tile, source, parameters) -> {
-                if (source.isServer()) {
+                if (source == EnvType.SERVER) {
                     handler.accept(tile);
                 }
             });

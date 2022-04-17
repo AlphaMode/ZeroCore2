@@ -19,6 +19,7 @@
 package it.zerono.mods.zerocore.internal.proxy;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.github.fabricators_of_create.porting_lib.event.client.TextureStitchCallback;
 import it.zerono.mods.zerocore.internal.InternalCommand;
 import it.zerono.mods.zerocore.internal.client.RenderTypes;
 import it.zerono.mods.zerocore.lib.CodeHelper;
@@ -71,7 +72,7 @@ public class ClientProxy
 
         modBus.register(this);
 //        modBus.register(BakedModelSupplier.INSTANCE);
-        modBus.register(AtlasSpriteSupplier.INSTANCE);
+        TextureStitchCallback.PRE.register(AtlasSpriteSupplier.INSTANCE::onPreTextureStitch);
 
         final IEventBus forgeBus = Mod.EventBusSubscriber.Bus.FORGE.bus().get();
 

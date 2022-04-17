@@ -44,7 +44,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

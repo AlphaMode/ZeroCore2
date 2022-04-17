@@ -22,7 +22,7 @@ import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotFactory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
 
 public class SlotGhostOutput extends SlotGeneric {
 

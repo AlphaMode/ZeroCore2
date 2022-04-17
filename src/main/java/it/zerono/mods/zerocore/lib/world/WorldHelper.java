@@ -18,6 +18,7 @@
 
 package it.zerono.mods.zerocore.lib.world;
 
+import io.github.fabricators_of_create.porting_lib.util.ServerLifecycleHooks;
 import it.zerono.mods.zerocore.ZeroCore;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
@@ -43,9 +44,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -230,13 +230,13 @@ public final class WorldHelper {
                 .map(te -> (IMultiblockPart<Controller>)te);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @SuppressWarnings("unchecked")
     public static <T extends BlockEntity> Optional<T> getClientTile(final BlockPos position) {
         return getClientWorld().map(w -> (T)getLoadedTile(w, position));
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public static <T extends BlockEntity> Optional<T> getClientTile(final BlockPos position, final Direction direction) {
         return getClientTile(position.relative(direction));
     }

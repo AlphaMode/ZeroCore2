@@ -27,7 +27,7 @@ import it.zerono.mods.zerocore.lib.client.gui.control.Picture;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.data.geometry.Rectangle;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import java.util.function.Supplier;
 

@@ -18,12 +18,10 @@
 
 package it.zerono.mods.zerocore.lib.fluid.handler;
 
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
 
 import javax.annotation.Nonnull;
-
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class FluidHandlerForwarder implements IFluidHandler {
 
@@ -80,7 +78,7 @@ public class FluidHandlerForwarder implements IFluidHandler {
      * @return The maximum fluid amount held by the tank.
      */
     @Override
-    public int getTankCapacity(int tank) {
+    public long getTankCapacity(int tank) {
         return this.getHandler().getTankCapacity(tank);
     }
 
@@ -102,26 +100,26 @@ public class FluidHandlerForwarder implements IFluidHandler {
      * Fills fluid into internal tanks, distribution is left entirely to the IFluidHandler.
      *
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be filled.
-     * @param action   If SIMULATE, fill will only be simulated.
+     * @param sim   If SIMULATE, fill will only be simulated.
      * @return Amount of resource that was (or would have been, if simulated) filled.
      */
     @Override
-    public int fill(FluidStack resource, FluidAction action) {
-        return this.getHandler().fill(resource, action);
+    public long fill(FluidStack resource, boolean sim) {
+        return this.getHandler().fill(resource, sim);
     }
 
     /**
      * Drains fluid out of internal tanks, distribution is left entirely to the IFluidHandler.
      *
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be drained.
-     * @param action   If SIMULATE, drain will only be simulated.
+     * @param sim   If SIMULATE, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
     @Nonnull
     @Override
-    public FluidStack drain(FluidStack resource, FluidAction action) {
-        return this.getHandler().drain(resource, action);
+    public FluidStack drain(FluidStack resource, boolean sim) {
+        return this.getHandler().drain(resource, sim);
     }
 
     /**
@@ -130,14 +128,14 @@ public class FluidHandlerForwarder implements IFluidHandler {
      * This method is not Fluid-sensitive.
      *
      * @param maxDrain Maximum amount of fluid to drain.
-     * @param action   If SIMULATE, drain will only be simulated.
+     * @param sim   If SIMULATE, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
     @Nonnull
     @Override
-    public FluidStack drain(int maxDrain, FluidAction action) {
-        return this.getHandler().drain(maxDrain, action);
+    public FluidStack drain(long maxDrain, boolean sim) {
+        return this.getHandler().drain(maxDrain, sim);
     }
 
     //endregion

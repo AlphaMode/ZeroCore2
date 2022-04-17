@@ -22,6 +22,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
+import io.github.fabricators_of_create.porting_lib.util.NonNullFunction;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.ServerLifecycleHooks;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -32,6 +35,9 @@ import it.zerono.mods.zerocore.ZeroCore;
 import it.zerono.mods.zerocore.internal.Lib;
 import it.zerono.mods.zerocore.internal.Log;
 import it.zerono.mods.zerocore.lib.multiblock.validation.ValidationError;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.Util;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -46,18 +52,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LogicalSidedProvider;
-import net.minecraftforge.common.util.NonNullFunction;
-import net.minecraftforge.common.util.NonNullSupplier;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -103,30 +100,30 @@ public final class CodeHelper {
     public static final int MOUSE_BUTTON_WHEEL_UP = -2;
 
     public static boolean isModLoaded(final String modId) {
-        return ModList.get().isLoaded(modId);
+        return FabricLoader.getInstance().isModLoaded(modId);
     }
 
-    public static ModContainer getActiveMod() {
-        return ModLoadingContext.get().getActiveContainer();
-    }
-
-    /**
-     * Retrieve the ID of the mod from FML active mod container
-     * Only call this method while processing a FMLEvent (or derived classes)
-     */
-    public static String getModIdFromActiveModContainer() {
-
-        final String modId = getActiveMod().getModId();
-
-        if ((null == modId) || modId.isEmpty()) {
-            throw new RuntimeException("Cannot retrieve the MOD ID from FML");
-        }
-
-        return modId;
-    }
+//    public static ModContainer getActiveMod() {
+//        return ModLoadingContext.get().getActiveContainer();
+//    }
+//
+//    /**
+//     * Retrieve the ID of the mod from FML active mod container
+//     * Only call this method while processing a FMLEvent (or derived classes)
+//     */
+//    public static String getModIdFromActiveModContainer() {
+//
+//        final String modId = getActiveMod().getModId();
+//
+//        if ((null == modId) || modId.isEmpty()) {
+//            throw new RuntimeException("Cannot retrieve the MOD ID from FML");
+//        }
+//
+//        return modId;
+//    }
 
     public static boolean isDevEnv() {
-        return !FMLEnvironment.production;
+        return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 
     //region misc
@@ -449,28 +446,28 @@ public final class CodeHelper {
         return calledByLogicalClient(world) ? code.getAsDouble() : invalidSideReturnValue;
     }
 
-    public static LogicalSide getWorldLogicalSide(final Level world) {
-        return CodeHelper.calledByLogicalClient(world) ? LogicalSide.CLIENT : LogicalSide.SERVER;
+    public static EnvType getWorldLogicalSide(final Level world) {
+        return CodeHelper.calledByLogicalClient(world) ? EnvType.CLIENT : EnvType.SERVER;
     }
 
     public static String getWorldSideName(Level world) {
         return CodeHelper.calledByLogicalClient(world) ? "CLIENT" : "SERVER";
     }
 
-    public static BlockableEventLoop<?> getThreadTaskExecutor(final LogicalSide side) {
+    public static BlockableEventLoop<?> getThreadTaskExecutor(final EnvType side) {
         return LogicalSidedProvider.WORKQUEUE.get(side);
     }
 
     public static BlockableEventLoop<?> getClientThreadTaskExecutor() {
-        return getThreadTaskExecutor(LogicalSide.CLIENT);
+        return getThreadTaskExecutor(EnvType.CLIENT);
     }
 
     public static BlockableEventLoop<?> getServerThreadTaskExecutor() {
-        return getThreadTaskExecutor(LogicalSide.SERVER);
+        return getThreadTaskExecutor(EnvType.SERVER);
     }
 
     @SuppressWarnings("UnusedReturnValue")
-    public static CompletableFuture<Void> enqueueTask(final LogicalSide side, final Runnable runnable) {
+    public static CompletableFuture<Void> enqueueTask(final EnvType side, final Runnable runnable) {
 
         final BlockableEventLoop<?> executor = getThreadTaskExecutor(side);
 
@@ -594,7 +591,7 @@ public final class CodeHelper {
     }
 
     public static boolean ioCreateModConfigDirectory(final String name) {
-        return ioCreateDirectory(FMLPaths.CONFIGDIR.get(), name);
+        return ioCreateDirectory(FabricLoader.getInstance().getConfigDir(), name);
     }
 
     //endregion
@@ -790,7 +787,7 @@ public final class CodeHelper {
      * i18n support and helper functions
      */
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public static Component i18nFormatComponent(final String translateKey, Object... parameters) {
         return new TextComponent(I18n.get(translateKey, parameters));
     }

@@ -31,7 +31,7 @@ import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import javax.annotation.Nullable;
 import java.util.function.BiConsumer;

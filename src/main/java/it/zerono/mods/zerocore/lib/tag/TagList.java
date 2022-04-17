@@ -18,6 +18,7 @@
 
 package it.zerono.mods.zerocore.lib.tag;
 
+import io.github.fabricators_of_create.porting_lib.event.TagsUpdatedCallback;
 import it.unimi.dsi.fastutil.objects.*;
 import it.zerono.mods.zerocore.lib.data.WeakReferenceGroup;
 import net.minecraft.core.Registry;
@@ -26,10 +27,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.util.NonNullSupplier;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.common.Mod;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import java.util.List;
 import java.util.Optional;
@@ -129,8 +127,8 @@ public class TagList<T> {
     }
 
     public static void initialize() {
-        Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(EventPriority.LOWEST,
-                (TagsUpdatedEvent e) -> s_lists.forEach(TagList::updateTags));
+        TagsUpdatedCallback.EVENT.register(registries
+                -> s_lists.forEach(TagList::updateTags));
     }
 
     //region internals

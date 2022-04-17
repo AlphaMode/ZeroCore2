@@ -22,12 +22,10 @@ import it.zerono.mods.zerocore.lib.data.stack.AllowedHandlerAction;
 import it.zerono.mods.zerocore.lib.data.stack.IndexedStackContainer;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
 
 import javax.annotation.Nonnull;
-
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class IndexedFluidHandlerForwarder<Index extends Enum<Index>>
         implements IFluidHandler {
@@ -96,7 +94,7 @@ public class IndexedFluidHandlerForwarder<Index extends Enum<Index>>
      * @return The maximum fluid amount held by the tank.
      */
     @Override
-    public int getTankCapacity(int tank) {
+    public long getTankCapacity(int tank) {
         return this.getContainer().getCapacity();
     }
 
@@ -118,14 +116,14 @@ public class IndexedFluidHandlerForwarder<Index extends Enum<Index>>
      * Fills fluid into internal tanks, distribution is left entirely to the IFluidHandler.
      *
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be filled.
-     * @param action   If SIMULATE, fill will only be simulated.
+     * @param sim   If SIMULATE, fill will only be simulated.
      * @return Amount of resource that was (or would have been, if simulated) filled.
      */
     @Override
-    public int fill(FluidStack resource, FluidAction action) {
+    public long fill(FluidStack resource, boolean sim) {
 
         if (this.getAllowedActions().canInsert()) {
-            return this.getContainer().insert(this.getIndex(), resource, OperationMode.from(action));
+            return this.getContainer().insert(this.getIndex(), resource, OperationMode.from(sim));
         } else {
             return 0;
         }
@@ -135,16 +133,16 @@ public class IndexedFluidHandlerForwarder<Index extends Enum<Index>>
      * Drains fluid out of internal tanks, distribution is left entirely to the IFluidHandler.
      *
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be drained.
-     * @param action   If SIMULATE, drain will only be simulated.
+     * @param sim   If SIMULATE, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
     @Nonnull
     @Override
-    public FluidStack drain(FluidStack resource, FluidAction action) {
+    public FluidStack drain(FluidStack resource, boolean sim) {
 
         if (this.getAllowedActions().canExtract()) {
-            return this.getContainer().extract(this.getIndex(), resource, OperationMode.from(action));
+            return this.getContainer().extract(this.getIndex(), resource, OperationMode.from(sim));
         } else {
             return FluidStack.EMPTY;
         }
@@ -156,16 +154,16 @@ public class IndexedFluidHandlerForwarder<Index extends Enum<Index>>
      * This method is not Fluid-sensitive.
      *
      * @param maxDrain Maximum amount of fluid to drain.
-     * @param action   If SIMULATE, drain will only be simulated.
+     * @param sim   If SIMULATE, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
     @Nonnull
     @Override
-    public FluidStack drain(int maxDrain, FluidAction action) {
+    public FluidStack drain(long maxDrain, boolean sim) {
 
         if (this.getAllowedActions().canExtract()) {
-            return this.getContainer().extract(this.getIndex(), maxDrain, OperationMode.from(action));
+            return this.getContainer().extract(this.getIndex(), maxDrain, OperationMode.from(sim));
         } else {
             return FluidStack.EMPTY;
         }

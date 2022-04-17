@@ -20,9 +20,9 @@ package it.zerono.mods.zerocore.lib;
 
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
 
 public final class DebuggableHelper {
 

@@ -98,7 +98,7 @@ public abstract class Filter implements IFilter {
         this._matchOptions = options;
     }
 
-    //region INBTSerializable
+    //region NBTSerializable
 
     @Override
     public CompoundTag serializeNBT() {

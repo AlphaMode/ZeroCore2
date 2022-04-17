@@ -18,7 +18,7 @@
 
 package it.zerono.mods.zerocore.lib;
 
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 public interface IDebuggable {
 
@@ -26,5 +26,5 @@ public interface IDebuggable {
      * @param side the LogicalSide of the caller
      * @param messages add your debug messages here
      */
-    void getDebugMessages(LogicalSide side, IDebugMessages messages);
+    void getDebugMessages(EnvType side, IDebugMessages messages);
 }

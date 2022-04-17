@@ -28,13 +28,13 @@ import it.zerono.mods.zerocore.lib.data.stack.StackAdapters;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
+import io.github.fabricators_of_create.porting_lib.util.NBTSerializable;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import net.fabricmc.api.EnvType;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandlerModifiable;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
 import java.util.function.BiPredicate;
@@ -42,7 +42,7 @@ import java.util.function.BiPredicate;
 public class ItemStackHolder
         extends AbstractStackHolder<ItemStackHolder, ItemStack>
         implements IStackHolderAccess<ItemStackHolder, ItemStack>, IItemHandler, IItemHandlerModifiable,
-                    INBTSerializable<CompoundTag>, ISyncableEntity, IDebuggable {
+                    NBTSerializable, ISyncableEntity, IDebuggable {
 
     public ItemStackHolder(final int size) {
         this(NonNullList.withSize(size, ItemStack.EMPTY));
@@ -139,7 +139,7 @@ public class ItemStackHolder
      * Inserts an ItemStack into the given slot and return the remainder.
      * The ItemStack <em>should not</em> be modified in this function!
      * </p>
-     * Note: This behaviour is subtly different from {@link net.minecraftforge.fluids.capability.IFluidHandler#fill(FluidStack, IFluidHandler.FluidAction)}  fill(FluidStack, boolean)}
+     * Note: This behaviour is subtly different from {@link IFluidHandler#fill(FluidStack, boolean)}  fill(FluidStack, boolean)}
      *
      * @param slot     Slot to insert into.
      * @param stack    ItemStack to insert. This must not be modified by the item handler.
@@ -319,7 +319,7 @@ public class ItemStackHolder
     }
 
     //endregion
-    //region INBTSerializable<CompoundTag>
+    //region NBTSerializable
 
     @Override
     public CompoundTag serializeNBT() {
@@ -372,7 +372,7 @@ public class ItemStackHolder
      * @param messages add your debug messages here
      */
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
         DebuggableHelper.getDebugMessagesFor(messages, this);
     }
 

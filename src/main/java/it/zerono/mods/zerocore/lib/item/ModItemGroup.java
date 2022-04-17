@@ -22,8 +22,8 @@ import com.google.common.collect.Lists;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.NonNullList;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -40,7 +40,7 @@ public class ModItemGroup extends CreativeModeTab {
     //region ItemGroup
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public ItemStack makeIcon() {
         return this._iconFactory.get();
     }
@@ -51,7 +51,7 @@ public class ModItemGroup extends CreativeModeTab {
      * @param items the list of items
      */
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void fillItemList(NonNullList<ItemStack> items) {
 
         if (null == this._content) {

@@ -21,9 +21,9 @@ package it.zerono.mods.zerocore.lib.item.inventory.container.slot.type;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotFactory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.items.IItemHandler;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
 
 public class SlotStatic
         extends SlotGeneric {
@@ -96,7 +96,7 @@ public class SlotStatic
      * If this method return false the slot content is not rendered
      */
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean isActive() {
         return true;
     }

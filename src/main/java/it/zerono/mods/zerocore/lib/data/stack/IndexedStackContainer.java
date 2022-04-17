@@ -26,7 +26,7 @@ import it.zerono.mods.zerocore.lib.data.EnumIndexedArray;
 import it.zerono.mods.zerocore.lib.data.nbt.IMergeableEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 import java.util.List;
 import java.util.Optional;
@@ -439,7 +439,7 @@ public class IndexedStackContainer<Index extends Enum<Index>, Content, Stack>
      * @param mode how this operation should be handled
      * @return a stack containing the removed content or an empty stack if the index is empty
      */
-    public Stack extract(Index index, Content content, int amount, OperationMode mode) {
+    public Stack extract(Index index, Content content, long amount, OperationMode mode) {
 
         final IStackAdapter<Stack, Content> adapter = this.getStackAdapter();
 
@@ -461,7 +461,7 @@ public class IndexedStackContainer<Index extends Enum<Index>, Content, Stack>
      * @param mode how this operation should be handled
      * @return a stack containing the removed content or an empty stack if the index is empty
      */
-    public Stack extract(Index index, int amount, OperationMode mode) {
+    public Stack extract(Index index, long amount, OperationMode mode) {
         return this.getContent(index).map(content -> this.extract(index, content, amount, mode))
                 .orElse(this.getStackAdapter().getEmptyStack());
     }
@@ -564,7 +564,7 @@ public class IndexedStackContainer<Index extends Enum<Index>, Content, Stack>
     //region IDebuggable
 
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
 
         final IStackAdapter<Stack, Content> adapter = this.getStackAdapter();
 

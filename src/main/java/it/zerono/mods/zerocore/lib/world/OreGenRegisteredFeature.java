@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
-import net.minecraftforge.common.util.NonNullFunction;
+import io.github.fabricators_of_create.porting_lib.util.NonNullFunction;
 
 import java.util.function.Supplier;
 

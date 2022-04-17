@@ -49,8 +49,8 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.NonNullConsumer;
-import net.minecraftforge.items.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.PlayerInvWrapper;
 

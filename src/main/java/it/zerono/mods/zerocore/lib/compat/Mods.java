@@ -20,7 +20,7 @@ package it.zerono.mods.zerocore.lib.compat;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.IForgeRegistryEntry;

@@ -18,7 +18,7 @@
 
 package it.zerono.mods.zerocore.lib.data.stack;
 
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
 
 public enum OperationMode {
 
@@ -40,12 +40,8 @@ public enum OperationMode {
         return Simulate == this;
     }
 
-    public IFluidHandler.FluidAction toFluidAction() {
-        return Execute == this ? IFluidHandler.FluidAction.EXECUTE : IFluidHandler.FluidAction.SIMULATE;
-    }
-
-    public static OperationMode from(final IFluidHandler.FluidAction action) {
-        return action.execute() ? Execute : Simulate;
+    public boolean toFluidAction() {
+        return Execute != this;
     }
 
     public static OperationMode from(final boolean simulate) {

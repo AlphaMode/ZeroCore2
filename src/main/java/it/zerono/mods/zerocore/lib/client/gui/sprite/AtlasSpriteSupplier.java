@@ -20,14 +20,14 @@ package it.zerono.mods.zerocore.lib.client.gui.sprite;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class AtlasSpriteSupplier implements ResourceManagerReloadListener {
@@ -59,13 +59,12 @@ public class AtlasSpriteSupplier implements ResourceManagerReloadListener {
     //endregion
     //region event handlers
 
-    @SubscribeEvent
-    public void onPreTextureStitch(TextureStitchEvent.Pre evt) {
+    public void onPreTextureStitch(TextureAtlas atlas, Consumer<ResourceLocation> spriteAdder) {
         
-        final ResourceLocation atlasName = evt.getAtlas().location();
+        final ResourceLocation atlasName = atlas.location();
 
         if (this._toBeStitched.containsKey(atlasName)) {
-            this._toBeStitched.get(atlasName).forEach(evt::addSprite);
+            this._toBeStitched.get(atlasName).forEach(spriteAdder::accept);
         }
     }
 

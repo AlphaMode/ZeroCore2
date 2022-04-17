@@ -79,11 +79,11 @@ public interface IStackHolder<Holder extends IStackHolder<Holder, Stack>, Stack>
         return 0;
     }
 
-    default int getAmount(int index) {
+    default long getAmount(int index) {
         return 0;
     }
 
-    default int getFreeSpace(int index) {
+    default long getFreeSpace(int index) {
         return this.getMaxCapacity(index) - this.getAmount(index);
     }
 }

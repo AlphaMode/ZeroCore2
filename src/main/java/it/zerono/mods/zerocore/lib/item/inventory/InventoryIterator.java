@@ -18,7 +18,7 @@
 
 package it.zerono.mods.zerocore.lib.item.inventory;
 
-import net.minecraftforge.items.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

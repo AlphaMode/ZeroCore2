@@ -41,20 +41,21 @@
 
 package it.zerono.mods.zerocore.lib.multiblock.registry;
 
+import io.github.fabricators_of_create.porting_lib.event.ClientWorldEvents;
+import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import it.zerono.mods.zerocore.internal.Lib;
 import it.zerono.mods.zerocore.internal.Log;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockRegistry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Map;
 
@@ -140,8 +141,12 @@ public class MultiblockRegistry<Controller extends IMultiblockController<Control
     public MultiblockRegistry() {
 
         this._registries = new Reference2ObjectArrayMap<>(2 * 8);
-        MinecraftForge.EVENT_BUS.addListener(this::onWorldUnload);
-        MinecraftForge.EVENT_BUS.addListener(this::onWorldTick);
+        ServerWorldEvents.UNLOAD.register((server, world) -> this.onWorldUnload(world));
+        ServerTickEvents.START_WORLD_TICK.register(this::onWorldTick);
+        EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () -> {
+            ClientWorldEvents.UNLOAD.register((client, world) -> this.onWorldUnload(world));
+            ClientTickEvents.START_WORLD_TICK.register(this::onWorldTick);
+        });
     }
 
     /**
@@ -170,10 +175,7 @@ public class MultiblockRegistry<Controller extends IMultiblockController<Control
     /**
      * Called whenever a world is unloaded. Unload the relevant registry, if we have one.
      */
-    @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void onWorldUnload(final WorldEvent.Unload event) {
-
-        final LevelAccessor world = event.getWorld();
+    public void onWorldUnload(final LevelAccessor world) {
 
         if (world instanceof Level) {
 
@@ -190,12 +192,8 @@ public class MultiblockRegistry<Controller extends IMultiblockController<Control
         }
     }
 
-    @SubscribeEvent
-    public void onWorldTick(final TickEvent.WorldTickEvent event) {
-
-        if (TickEvent.Phase.START == event.phase) {
-            this.tickStart(event.world);
-        }
+    public void onWorldTick(final Level world) {
+        this.tickStart(world);
     }
 
     //endregion

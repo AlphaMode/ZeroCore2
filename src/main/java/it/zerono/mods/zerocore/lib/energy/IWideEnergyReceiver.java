@@ -18,6 +18,8 @@
 
 package it.zerono.mods.zerocore.lib.energy;
 
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.Direction;
 
 import javax.annotation.Nullable;
@@ -42,5 +44,5 @@ public interface IWideEnergyReceiver extends IWideEnergyHandler {
      * @param simulate if true, the extraction will only be simulated
      * @return amount of energy that was (or would have been, if simulated) received
      */
-    double receiveEnergy(EnergySystem system, @Nullable Direction from, double maxAmount, boolean simulate);
+    double receiveEnergy(EnergySystem system, @Nullable Direction from, double maxAmount, TransactionContext simulate);
 }

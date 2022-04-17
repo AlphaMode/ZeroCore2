@@ -18,17 +18,21 @@
 
 package it.zerono.mods.zerocore.lib.client.model.multiblock;
 
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
 import it.zerono.mods.zerocore.lib.client.model.BlockVariantsModel;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.PartProperties;
+import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
-import net.minecraftforge.client.model.data.IModelData;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class CuboidPartVariantsModel extends BlockVariantsModel {
@@ -50,6 +54,14 @@ public class CuboidPartVariantsModel extends BlockVariantsModel {
         }
 
         return super.getQuads(state, renderSide, rand, data);
+    }
+
+    @Override
+    public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+        context.pushTransform(quad -> {
+            return true;
+        });
+        super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
     }
 
     //endregion

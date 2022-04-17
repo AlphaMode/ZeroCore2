@@ -23,7 +23,7 @@ import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteBuilder;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteTextureMap;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import javax.annotation.Nonnull;
 

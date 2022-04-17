@@ -41,7 +41,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 
 import javax.annotation.Nullable;
 import java.util.List;

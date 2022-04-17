@@ -19,10 +19,10 @@
 package it.zerono.mods.zerocore.lib.block;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 @FunctionalInterface
 public interface ITileCommandHandler<T extends AbstractModBlockEntity> {
 
-    void handle(T tile, LogicalSide source, CompoundTag parameters);
+    void handle(T tile, EnvType source, CompoundTag parameters);
 }

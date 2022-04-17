@@ -20,7 +20,7 @@ package it.zerono.mods.zerocore.lib.item.inventory.container.slot;
 
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
 import net.minecraft.world.inventory.Slot;
-import net.minecraftforge.items.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
 
 public class SlotFactory {
 

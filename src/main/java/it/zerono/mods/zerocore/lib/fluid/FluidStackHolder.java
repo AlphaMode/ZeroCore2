@@ -18,6 +18,7 @@
 
 package it.zerono.mods.zerocore.lib.fluid;
 
+import io.github.fabricators_of_create.porting_lib.util.NBTSerializable;
 import it.zerono.mods.zerocore.lib.DebuggableHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
@@ -25,19 +26,22 @@ import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.AbstractStackHolder;
 import it.zerono.mods.zerocore.lib.data.stack.IStackHolderAccess;
 import it.zerono.mods.zerocore.lib.data.stack.StackAdapters;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.LogicalSide;
+import io.github.fabricators_of_create.porting_lib.util.NBTSerializable;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import net.fabricmc.api.EnvType;
 
 import javax.annotation.Nonnull;
 import java.util.function.BiPredicate;
 
 public class FluidStackHolder
         extends AbstractStackHolder<FluidStackHolder, FluidStack>
-        implements IStackHolderAccess<FluidStackHolder, FluidStack>, IFluidHandler, INBTSerializable<CompoundTag>,
+        implements IStackHolderAccess<FluidStackHolder, FluidStack>, SingleVariantStorage<FluidVariant>, NBTSerializable,
                     ISyncableEntity, IDebuggable {
 
     public FluidStackHolder(final int size) {
@@ -73,7 +77,7 @@ public class FluidStackHolder
     }
 
     @Override
-    public int getAmount(final int index) {
+    public long getAmount(final int index) {
         return this.getFluidInTank(index).getAmount();
     }
 
@@ -109,7 +113,7 @@ public class FluidStackHolder
     }
 
     @Override
-    public int getTankCapacity(final int tank) {
+    public long getTankCapacity(final int tank) {
 
         this.validateSlotIndex(tank);
         return this.getMaxCapacity(tank);
@@ -126,18 +130,18 @@ public class FluidStackHolder
      * Fills fluid into internal tanks, distribution is left entirely to the IFluidHandler.
      *
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be filled.
-     * @param action   If SIMULATE, fill will only be simulated.
+     * @param sim   If SIMULATE, fill will only be simulated.
      * @return Amount of resource that was (or would have been, if simulated) filled.
      */
     @Override
-    public int fill(final FluidStack resource, final FluidAction action) {
+    public long fill(final FluidStack resource, final boolean sim) {
 
         if (resource.isEmpty()) {
             return 0;
         }
 
         final int tanks = this.getTanks();
-        int filled = 0, resourceAmount = resource.getAmount(), use;
+        long filled = 0, resourceAmount = resource.getAmount(), use;
 
         for (int tank = 0; tank < tanks && resourceAmount > 0; ++tank) {
             if (this.isFluidValid(tank, resource)) {
@@ -174,20 +178,20 @@ public class FluidStackHolder
      * Drains fluid out of internal tanks, distribution is left entirely to the IFluidHandler.
      *
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be drained.
-     * @param action   If SIMULATE, drain will only be simulated.
+     * @param sim   If SIMULATE, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
     @Nonnull
     @Override
-    public FluidStack drain(final FluidStack resource, final FluidAction action) {
+    public FluidStack drain(final FluidStack resource, final boolean sim) {
 
         if (resource.isEmpty()) {
             return FluidStack.EMPTY;
         }
 
         final int tanks = this.getTanks();
-        int drained = 0, maxDrainAmount = resource.getAmount(), use;
+        long drained = 0, maxDrainAmount = resource.getAmount(), use;
 
         for (int tank = 0; tank < tanks && maxDrainAmount > 0; ++tank) {
 
@@ -199,7 +203,7 @@ public class FluidStackHolder
                 drained += use;
                 maxDrainAmount -= use;
 
-                if (action.execute()) {
+                if (!sim) {
 
                     if (use == content.getAmount()) {
 
@@ -230,7 +234,7 @@ public class FluidStackHolder
      */
     @Nonnull
     @Override
-    public FluidStack drain(final int maxDrain, final FluidAction action) {
+    public FluidStack drain(final int maxDrain, final boolean sim) {
 
         if (maxDrain >= 0) {
 
@@ -252,7 +256,7 @@ public class FluidStackHolder
     }
 
     //endregion
-    //region INBTSerializable<CompoundTag>
+    //region NBTSerializable
 
     @Override
     public CompoundTag serializeNBT() {
@@ -305,7 +309,7 @@ public class FluidStackHolder
      * @param messages add your debug messages here
      */
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
         DebuggableHelper.getDebugMessagesFor(messages, this);
     }
 

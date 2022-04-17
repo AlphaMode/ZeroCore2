@@ -19,7 +19,7 @@
 package it.zerono.mods.zerocore.lib.item.inventory.container.data;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;

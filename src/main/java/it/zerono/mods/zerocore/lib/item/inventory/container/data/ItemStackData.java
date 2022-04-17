@@ -24,9 +24,9 @@ import it.zerono.mods.zerocore.lib.item.inventory.ItemStackHolder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.NonNullConsumer;
-import net.minecraftforge.common.util.NonNullSupplier;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandlerModifiable;
 
 import javax.annotation.Nullable;
 

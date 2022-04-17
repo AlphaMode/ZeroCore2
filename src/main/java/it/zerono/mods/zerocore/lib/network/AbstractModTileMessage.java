@@ -29,8 +29,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.network.NetworkEvent;
+import net.fabricmc.api.EnvType;
 
 import java.util.Optional;
 
@@ -80,7 +79,7 @@ public abstract class AbstractModTileMessage
      * @param sourceSide the LogicalSide this message is coming from
      * @param tileEntity the TileEntity object on the other side of this message exchange
      */
-    protected abstract void processTileEntityMessage(LogicalSide sourceSide, BlockEntity tileEntity);
+    protected abstract void processTileEntityMessage(EnvType sourceSide, BlockEntity tileEntity);
 
     //region AbstractModMessage
 

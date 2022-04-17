@@ -22,7 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraftforge.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 
 import javax.annotation.Nullable;
 import java.util.Optional;

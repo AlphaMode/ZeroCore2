@@ -25,7 +25,7 @@ import it.zerono.mods.zerocore.lib.network.AbstractModTileMessage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 import java.util.Objects;
 

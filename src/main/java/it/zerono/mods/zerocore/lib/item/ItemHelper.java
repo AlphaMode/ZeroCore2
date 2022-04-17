@@ -25,6 +25,7 @@ import it.zerono.mods.zerocore.internal.Lib;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.data.json.JSONHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.MutableComponent;
@@ -37,9 +38,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.EmptyHandler;
-import net.minecraftforge.registries.ForgeRegistries;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandlerModifiable;
+import io.github.fabricators_of_create.porting_lib.transfer.item.EmptyHandler;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -55,11 +55,11 @@ public final class ItemHelper {
     public static final IItemHandlerModifiable EMPTY_ITEM_HANDLER = (IItemHandlerModifiable)EmptyHandler.INSTANCE;
 
     public static ResourceLocation getItemId(final ItemLike item) {
-        return Objects.requireNonNull(item.asItem().getRegistryName());
+        return Objects.requireNonNull(Registry.ITEM.getKey(item.asItem()));
     }
 
     public static ResourceLocation getItemId(final ItemStack stack) {
-        return Objects.requireNonNull(stack.getItem().getRegistryName());
+        return Objects.requireNonNull(Registry.ITEM.getKey(stack.getItem()));
     }
 
     public static MutableComponent getItemName(final Item item) {
@@ -85,7 +85,7 @@ public final class ItemHelper {
     }
 
     public static Item getItemFromOrAir(final ResourceLocation id) {
-        return ForgeRegistries.ITEMS.containsKey(id) ? Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(id)) : Items.AIR;
+        return Registry.ITEM.containsKey(id) ? Objects.requireNonNull(Registry.ITEM.get(id)) : Items.AIR;
     }
 
     public enum MatchOption {
@@ -143,9 +143,9 @@ public final class ItemHelper {
             result = ItemStack.tagMatches(stackA, stackB);
         }
 
-        if (result && options.contains(MatchOption.Capabilities)) {
-            result = stackA.areCapsCompatible(stackB);
-        }
+//        if (result && options.contains(MatchOption.Capabilities)) {
+//            result = stackA.areCapsCompatible(stackB);
+//        }
 
         if (result && options.contains(MatchOption.Tags)) {
             result = ItemStack.tagMatches(stackA, stackB);

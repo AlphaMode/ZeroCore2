@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import io.github.fabricators_of_create.porting_lib.crafting.NBTIngredient;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.zerocore.internal.Lib;
 import it.zerono.mods.zerocore.lib.data.json.JSONHelper;
@@ -35,7 +36,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.crafting.NBTIngredient;
 
 import java.util.Arrays;
 import java.util.List;

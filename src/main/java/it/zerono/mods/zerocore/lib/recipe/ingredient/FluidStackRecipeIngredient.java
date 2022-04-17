@@ -30,7 +30,7 @@ import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 
 import java.util.List;
 import java.util.Objects;

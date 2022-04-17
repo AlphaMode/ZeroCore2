@@ -20,7 +20,7 @@ package it.zerono.mods.zerocore.lib.item.inventory;
 
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.ItemHandlerHelper;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 
 public interface IInventorySlot {
 

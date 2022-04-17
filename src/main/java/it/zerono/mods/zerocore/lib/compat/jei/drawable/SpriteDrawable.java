@@ -23,7 +23,7 @@ import it.zerono.mods.zerocore.lib.client.gui.Padding;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 public class SpriteDrawable
         implements IDrawableStatic {

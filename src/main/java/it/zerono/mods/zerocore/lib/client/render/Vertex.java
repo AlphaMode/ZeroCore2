@@ -23,12 +23,12 @@ import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.data.gfx.LightMap;
 import it.zerono.mods.zerocore.lib.data.gfx.UV;
 import com.mojang.math.Vector3f;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import javax.annotation.Nullable;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Vertex
         implements IVertexSource {

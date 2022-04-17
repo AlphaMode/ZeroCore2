@@ -18,7 +18,7 @@
 
 package it.zerono.mods.zerocore.lib.data;
 
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;

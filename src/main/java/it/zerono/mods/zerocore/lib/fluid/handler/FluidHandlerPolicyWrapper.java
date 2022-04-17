@@ -18,8 +18,8 @@
 
 package it.zerono.mods.zerocore.lib.fluid.handler;
 
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
 
 import java.util.function.Predicate;
 
@@ -35,12 +35,12 @@ public final class FluidHandlerPolicyWrapper {
         return new InputWrapper(original, inputValidator) {
 
             @Override
-            public FluidStack drain(FluidStack resource, FluidAction action) {
+            public FluidStack drain(FluidStack resource, boolean sim) {
                 return FluidStack.EMPTY;
             }
 
             @Override
-            public FluidStack drain(int maxDrain, FluidAction action) {
+            public FluidStack drain(int maxDrain, boolean sim) {
                 return FluidStack.EMPTY;
             }
         };
@@ -50,7 +50,7 @@ public final class FluidHandlerPolicyWrapper {
         return new FluidHandlerForwarder(original) {
 
             @Override
-            public int fill(FluidStack resource, FluidAction action) {
+            public int fill(FluidStack resource, boolean sim) {
                 return 0;
             }
 
@@ -77,8 +77,8 @@ public final class FluidHandlerPolicyWrapper {
         }
 
         @Override
-        public int fill(FluidStack stack, FluidAction action) {
-            return this._inputValidator.test(stack) ? super.fill(stack, action) : 0;
+        public long fill(FluidStack stack, boolean sim) {
+            return this._inputValidator.test(stack) ? super.fill(stack, sim) : 0;
         }
 
         @Override

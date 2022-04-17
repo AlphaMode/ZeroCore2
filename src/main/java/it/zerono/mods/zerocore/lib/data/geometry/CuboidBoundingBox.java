@@ -23,7 +23,7 @@ import it.zerono.mods.zerocore.lib.CodeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.util.NonNullFunction;
+import io.github.fabricators_of_create.porting_lib.util.NonNullFunction;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;

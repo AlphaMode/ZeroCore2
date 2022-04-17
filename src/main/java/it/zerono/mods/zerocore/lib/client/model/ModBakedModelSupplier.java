@@ -20,18 +20,18 @@ package it.zerono.mods.zerocore.lib.client.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import io.github.fabricators_of_create.porting_lib.event.ModelsBakedCallback;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
+import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ForgeModelBakery;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.server.packs.resources.ResourceManager;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ModBakedModelSupplier {
@@ -41,7 +41,8 @@ public class ModBakedModelSupplier {
         this._toBeRegistered = Lists.newArrayList();
         this._wrappers = Maps.newHashMap();
 
-        Mod.EventBusSubscriber.Bus.MOD.bus().get().register(this);
+        ModelLoadingRegistry.INSTANCE.registerModelProvider(this::onRegisterModels);
+        ModelsBakedCallback.EVENT.register(this::onModelBake);
     }
 
     public void addModel(final ResourceLocation name) {
@@ -57,15 +58,12 @@ public class ModBakedModelSupplier {
 
     //region event handlers
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onRegisterModels(final ModelRegistryEvent event) {
-        this._toBeRegistered.forEach(ForgeModelBakery::addSpecialModel);
+    public void onRegisterModels(ResourceManager manager, Consumer<ResourceLocation> out) {
+        this._toBeRegistered.forEach(out);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onModelBake(final ModelBakeEvent event) {
+    public void onModelBake(ModelManager manager, final Map<ResourceLocation, BakedModel> modelRegistry, ModelBakery loader) {
 
-        final Map<ResourceLocation, BakedModel> modelRegistry = event.getModelRegistry();
         final BakedModel missing = ModRenderHelper.getMissingModel();
 
         this._wrappers.forEach((key, value) -> value._cachedModel = modelRegistry.getOrDefault(key, missing));

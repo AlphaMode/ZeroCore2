@@ -18,13 +18,17 @@
 
 package it.zerono.mods.zerocore.lib.world;
 
+import io.github.fabricators_of_create.porting_lib.util.NonNullFunction;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.zerono.mods.zerocore.internal.Log;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -35,9 +39,6 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.NonNullFunction;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -66,8 +67,8 @@ public class WorldReGenHandler
 
         bus.addListener(this::onChunkDataSave);
         bus.addListener(this::onChunkDataLoad);
-        bus.addListener(this::onServerStopped);
-        bus.addListener(this::onWorldTick);
+        ServerLifecycleEvents.SERVER_STOPPED.register(this::onServerStopped);
+        ServerTickEvents.END_WORLD_TICK.register(this::onWorldTick);
     }
 
     public static Predicate<Holder<Biome>> matchAll() {
@@ -161,17 +162,17 @@ public class WorldReGenHandler
         }
     }
 
-    private void onServerStopped(final ServerStoppedEvent event) {
+    private void onServerStopped(MinecraftServer server) {
 
         if (null != this._chunksToRegen) {
             this._chunksToRegen.clear();
         }
     }
 
-    private void onWorldTick(final TickEvent.WorldTickEvent event) {
+    private void onWorldTick(final ServerLevel world) {
 
-        if (this.enabled() && event.side.isServer() && TickEvent.Phase.END == event.phase) {
-            this.processChunks((ServerLevel)event.world);
+        if (this.enabled()) {
+            this.processChunks(world);
         }
     }
 

@@ -18,6 +18,7 @@
 
 package it.zerono.mods.zerocore.base.client.screen;
 
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
 import it.zerono.mods.zerocore.lib.client.gui.*;
 import it.zerono.mods.zerocore.lib.client.gui.control.AbstractButtonControl;
@@ -39,13 +40,12 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.NonNullSupplier;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import javax.annotation.Nullable;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public abstract class AbstractScreen<T extends AbstractModBlockEntity & MenuProvider, C extends ModTileContainer<T>>
         extends ModTileContainerScreen<T, C> {
 

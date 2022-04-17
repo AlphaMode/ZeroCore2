@@ -18,21 +18,17 @@
 
 package it.zerono.mods.zerocore.lib.item.inventory.container.slot.type;
 
-import it.zerono.mods.zerocore.internal.Log;
+import io.github.fabricators_of_create.porting_lib.extensions.SlotExtensions;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandlerModifiable;
+import io.github.fabricators_of_create.porting_lib.transfer.item.SlotItemHandler;
 import it.zerono.mods.zerocore.lib.data.geometry.Point;
 import it.zerono.mods.zerocore.lib.item.inventory.IInventorySlot;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.ISlotNotify;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotFactory;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.SlotItemHandler;
 
-import javax.annotation.Nullable;
-import java.lang.reflect.Field;
 import java.util.function.BiFunction;
 
 public class SlotGeneric
@@ -65,7 +61,7 @@ public class SlotGeneric
      */
     @Override
     public boolean mayPlace(final ItemStack stack) {
-        return this.getTemplate().match(this.getSlotIndex(), stack);
+        return this.getTemplate().match(((SlotExtensions)this).getSlotIndex(), stack);
     }
 
     /**
@@ -80,11 +76,11 @@ public class SlotGeneric
 
         if (itemHandler instanceof IItemHandlerModifiable) {
 
-            ((IItemHandlerModifiable)itemHandler).setStackInSlot(this.getSlotIndex(), stack);
+            ((IItemHandlerModifiable)itemHandler).setStackInSlot(((SlotExtensions)this).getSlotIndex(), stack);
             this.setChanged();
 
             if (itemHandler instanceof ISlotNotify) {
-                ((ISlotNotify)itemHandler).onSlotChanged(itemHandler, this.getSlotIndex(), stack);
+                ((ISlotNotify)itemHandler).onSlotChanged(itemHandler, ((SlotExtensions)this).getSlotIndex(), stack);
             }
         }
     }
@@ -96,7 +92,7 @@ public class SlotGeneric
      */
     @Override
     public int getIndex() {
-        return this.getSlotIndex();
+        return ((SlotExtensions)this).getSlotIndex();
     }
 
     /**
@@ -175,45 +171,12 @@ public class SlotGeneric
     //region internals
 
     private static void setPos(final SlotGeneric slot, final Point pos) {
-
-        try {
-            s_xPosField.setInt(slot, pos.X);
-        } catch (IllegalAccessException e) {
-            Log.LOGGER.warn(Log.CORE, "Unable to set field xPos for a SlotGeneric");
-        }
-
-        try {
-            s_yPosField.setInt(slot, pos.Y);
-        } catch (IllegalAccessException e) {
-            Log.LOGGER.warn(Log.CORE, "Unable to set field yPos for a SlotGeneric");
-        }
+        slot.x = pos.X;
+        slot.y = pos.Y;
     }
 
     private final SlotTemplate _template;
     private final SlotFactory _factory;
-
-    private static final Field s_xPosField;
-    private static final Field s_yPosField;
-
-    static {
-
-        s_xPosField = getPosField("f_40220_"); // x
-        s_yPosField = getPosField("f_40221_"); // y
-    }
-
-    @Nullable
-    private static Field getPosField(final String name) {
-
-        try {
-
-            return ObfuscationReflectionHelper.findField(Slot.class, name);
-
-        } catch (ObfuscationReflectionHelper.UnableToFindFieldException ex) {
-
-            Log.LOGGER.error(Log.CORE, "SlotGeneric - Unable to get field {} : {}", name, ex);
-            return null;
-        }
-    }
 
     //endregion
 }

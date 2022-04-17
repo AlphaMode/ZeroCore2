@@ -30,7 +30,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-import net.minecraftforge.common.util.NonNullFunction;
+import io.github.fabricators_of_create.porting_lib.util.NonNullFunction;
 
 import java.util.List;
 import java.util.Objects;

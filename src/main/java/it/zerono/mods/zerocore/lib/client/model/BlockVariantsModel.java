@@ -19,26 +19,32 @@
 package it.zerono.mods.zerocore.lib.client.model;
 
 import com.google.common.collect.ImmutableList;
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.zerono.mods.zerocore.lib.client.model.data.GenericProperties;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
+import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class BlockVariantsModel
         extends AbstractDynamicBakedModel {
 
@@ -60,26 +66,47 @@ public class BlockVariantsModel
 
     //region IDynamicBakedModel
 
+
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction renderSide,
-                                    Random rand, IModelData data) {
-
-        if (data.hasProperty(GenericProperties.ID) && data.hasProperty(GenericProperties.VARIANT_INDEX) && this.containsBlock(data)) {
-            return this.getBlock(data).getQuads(GenericProperties.getVariantIndex(data), state, renderSide, rand, data);
-        }
-
-        return ModRenderHelper.getMissingModel().getQuads(state, renderSide, rand, EmptyModelData.INSTANCE);
+    public boolean isVanillaAdapter() {
+        return false;
     }
 
     @Override
-    public TextureAtlasSprite getParticleIcon(final IModelData data) {
-
-        if (data.hasProperty(GenericProperties.ID) && data.hasProperty(GenericProperties.VARIANT_INDEX) && this.containsBlock(data)) {
-            return this.getBlock(data).getParticleTexture(GenericProperties.getVariantIndex(data), data);
-        }
-
-        return ModRenderHelper.getMissingModel().getParticleIcon(EmptyModelData.INSTANCE);
+    public List<BakedQuad> getQuads(@org.jetbrains.annotations.Nullable BlockState state, @Nullable Direction side, Random rand) {
+        return null;
     }
+
+    @Override
+    public ItemTransforms getTransforms() {
+        return ItemTransforms.NO_TRANSFORMS;
+    }
+
+    @Override
+    public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+        if(blockView instanceof RenderAttachedBlockView renderAttachedBlockView) {
+            IModelData data = (IModelData) renderAttachedBlockView.getBlockEntityRenderAttachment(pos);
+            if (data.hasProperty(GenericProperties.ID) && data.hasProperty(GenericProperties.VARIANT_INDEX) && this.containsBlock(data)) {
+                this.getBlock(data).emitQuads(GenericProperties.getVariantIndex(data), blockView, state, pos, randomSupplier, context);
+            }
+        }
+        ((FabricBakedModel)ModRenderHelper.getMissingModel()).emitBlockQuads(blockView, state, pos, randomSupplier, context);
+    }
+
+    @Override
+    public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
+        context.fallbackConsumer().accept(this);
+    }
+// TODO: PORT
+//    @Override
+//    public TextureAtlasSprite getParticleIcon(final IModelData data) {
+//
+//        if (data.hasProperty(GenericProperties.ID) && data.hasProperty(GenericProperties.VARIANT_INDEX) && this.containsBlock(data)) {
+//            return this.getBlock(data).getParticleTexture(GenericProperties.getVariantIndex(data), data);
+//        }
+//
+//        return ModRenderHelper.getMissingModel().getParticleIcon(EmptyModelData.INSTANCE);
+//    }
 
     //endregion
     //region internals
@@ -108,18 +135,15 @@ public class BlockVariantsModel
             this._noGeneralQuads = !hasGeneralQuads;
         }
 
-        List<BakedQuad> getQuads(final int variantIndex, @Nullable BlockState state, @Nullable Direction renderSide,
-                                 Random rand, IModelData data) {
-
-            if (null == renderSide && this._noGeneralQuads) {
-                return Collections.emptyList();
-            } else {
-                return this._variants.get(variantIndex).getQuads(state, renderSide, rand, data);
+        void emitQuads(final int variantIndex, BlockAndTintGetter blockAndTintGetter, @Nullable BlockState state, BlockPos pos,
+                       Supplier<Random> rand, RenderContext context) {
+            if (!this._noGeneralQuads) {
+                ((FabricBakedModel)this._variants.get(variantIndex)).emitBlockQuads(blockAndTintGetter, state, pos, rand, context);
             }
         }
 
         TextureAtlasSprite getParticleTexture(final int variantIndex, IModelData data) {
-            return this._variants.get(variantIndex).getParticleIcon(data);
+            return this._variants.get(variantIndex).getParticleIcon(/*data*/);
         }
 
         //region internals

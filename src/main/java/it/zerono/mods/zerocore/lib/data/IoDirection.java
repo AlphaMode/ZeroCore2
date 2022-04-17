@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 public enum IoDirection
         implements IDebuggable {
@@ -68,7 +68,7 @@ public enum IoDirection
     //region IDebuggable
 
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
         messages.addUnlocalized("Direction: %1$s", this);
     }
 

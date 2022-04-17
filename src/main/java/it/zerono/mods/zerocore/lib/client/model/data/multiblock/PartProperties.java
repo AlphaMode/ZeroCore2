@@ -18,12 +18,12 @@
 
 package it.zerono.mods.zerocore.lib.client.model.data.multiblock;
 
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
+import io.github.fabricators_of_create.porting_lib.model.ModelProperty;
 import it.zerono.mods.zerocore.lib.block.BlockFacings;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.client.model.data.NamedModelProperty;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelProperty;
 
 import java.util.Objects;
 import java.util.function.Function;

@@ -18,6 +18,7 @@
 
 package it.zerono.mods.zerocore.internal;
 
+import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import it.zerono.mods.zerocore.internal.network.Network;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockRegistry;
@@ -57,7 +58,7 @@ public final class Lib {
     }
 
     public static <Controller extends IMultiblockController<Controller>> IMultiblockRegistry<Controller> createMultiblockRegistry() {
-        return DistExecutor.safeRunForDist(() -> MultiblockRegistrySafeReferent::client, () -> MultiblockRegistrySafeReferent::server);
+        return EnvExecutor.unsafeRunForDist(() -> MultiblockRegistrySafeReferent::client, () -> MultiblockRegistrySafeReferent::server);
     }
 
     //region common constants

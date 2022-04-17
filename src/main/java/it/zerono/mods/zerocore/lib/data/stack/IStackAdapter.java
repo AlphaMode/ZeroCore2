@@ -117,7 +117,7 @@ public interface IStackAdapter<StackType, ContentType> {
      * @param amount the amount of the content
      * @return the new stack
      */
-    StackType create(ContentType content, int amount);
+    StackType create(ContentType content, long amount);
 
     /**
      * Create a duplicate of the given stack

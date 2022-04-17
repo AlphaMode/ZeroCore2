@@ -20,6 +20,7 @@ package it.zerono.mods.zerocore.lib.energy.handler;
 
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyReceiver;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.Direction;
 
 import javax.annotation.Nullable;
@@ -46,7 +47,7 @@ public class WideEnergyReceiverForwarder
      * @return amount of energy that was (or would have been, if simulated) received
      */
     @Override
-    public double receiveEnergy(EnergySystem system, @Nullable Direction from, double maxAmount, boolean simulate) {
+    public double receiveEnergy(EnergySystem system, @Nullable Direction from, double maxAmount, Transaction simulate) {
         return this.getHandler().receiveEnergy(system, from, maxAmount, simulate);
     }
 

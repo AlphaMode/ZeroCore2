@@ -19,7 +19,7 @@
 package it.zerono.mods.zerocore.lib.client.gui.sprite;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraftforge.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 
 import java.util.Optional;
 

@@ -35,7 +35,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
 import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.client.base.ClientTicker;

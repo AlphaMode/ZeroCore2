@@ -22,7 +22,7 @@ import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
+import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
 
 import java.util.EnumSet;
 import java.util.Objects;

@@ -42,25 +42,22 @@
 package it.zerono.mods.zerocore.lib.multiblock.registry;
 
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class MultiblockClientRegistry<Controller extends IMultiblockController<Controller>>
     extends MultiblockRegistry<Controller> {
 
     public MultiblockClientRegistry() {
-        MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
+        ClientTickEvents.START_CLIENT_TICK.register(this::onClientTick);
     }
 
-    @SubscribeEvent
-    public void onClientTick(final TickEvent.ClientTickEvent event) {
+    public void onClientTick(final Minecraft minecraft) {
 
         final Level world = Minecraft.getInstance().level;
 
-        if (TickEvent.Phase.START == event.phase && null != world) {
+        if (null != world) {
             this.tickStart(world);
         }
     }

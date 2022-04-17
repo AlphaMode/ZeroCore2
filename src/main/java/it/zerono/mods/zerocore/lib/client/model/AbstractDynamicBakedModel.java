@@ -19,24 +19,24 @@
 package it.zerono.mods.zerocore.lib.client.model;
 
 import com.mojang.blaze3d.vertex.VertexFormatElement;
+import io.github.fabricators_of_create.porting_lib.model.BakedQuadBuilder;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.data.Flags;
 import it.zerono.mods.zerocore.lib.data.geometry.Vector3d;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
+import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IDynamicBakedModel;
-import net.minecraftforge.client.model.pipeline.BakedQuadBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public abstract class AbstractDynamicBakedModel
-        implements IDynamicBakedModel {
+        implements BakedModel, FabricBakedModel {
 
     protected AbstractDynamicBakedModel(final boolean ambientOcclusion, final boolean guid3D) {
         this(ambientOcclusion, guid3D, false);
@@ -178,7 +178,7 @@ public abstract class AbstractDynamicBakedModel
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
-        return ModRenderHelper.getMissingModel().getParticleIcon(EmptyModelData.INSTANCE);
+        return ModRenderHelper.getMissingModel().getParticleIcon();
     }
 
     @Override

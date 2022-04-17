@@ -18,8 +18,8 @@
 
 package it.zerono.mods.zerocore.lib.client.model.data;
 
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import io.github.fabricators_of_create.porting_lib.model.EmptyModelData;
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
 
 /**
  * A cache for re-usable {@link IModelData} instances.

@@ -26,8 +26,8 @@
 //import net.minecraft.util.math.Vec3i;
 //import net.minecraft.world.World;
 //import net.minecraftforge.client.model.ModelDataManager;
-//import net.minecraftforge.client.model.data.EmptyModelData;
-//import net.minecraftforge.client.model.data.IModelData;
+//import io.github.fabricators_of_create.porting_lib.model.EmptyModelData;
+//import io.github.fabricators_of_create.porting_lib.model.IModelData;
 //
 //import javax.annotation.Nullable;
 //import java.util.List;

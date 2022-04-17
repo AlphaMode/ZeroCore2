@@ -22,11 +22,11 @@ import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.AbstractStackHolder;
+import net.fabricmc.api.EnvType;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.LogicalSide;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.IFluidHandler;
+import net.fabricmc.api.EnvType;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -34,7 +34,7 @@ import java.util.function.BiPredicate;
 
 public class FluidTank
         extends AbstractStackHolder<FluidTank, FluidStack>
-        implements IFluidHandler, IFluidTank, ISyncableEntity, IDebuggable {
+        implements IFluidHandler, io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidTank, ISyncableEntity, IDebuggable {
 
     public FluidTank(final int capacity) {
         this._capacity = capacity;
@@ -78,7 +78,7 @@ public class FluidTank
         return this.getFluid().isEmpty();
     }
 
-    public int getFreeSpace() {
+    public long getFreeSpace() {
         return Math.max(0, this._capacity - this.getFluidAmount());
     }
 
@@ -97,7 +97,7 @@ public class FluidTank
      * @return Current amount of fluid in the tank.
      */
     @Override
-    public int getFluidAmount() {
+    public long getFluidAmount() {
         return this.getFluid().getAmount();
     }
 
@@ -105,7 +105,7 @@ public class FluidTank
      * @return Capacity of this fluid tank.
      */
     @Override
-    public int getCapacity() {
+    public long getCapacity() {
         return this._capacity;
     }
 
@@ -160,7 +160,7 @@ public class FluidTank
      * @return The maximum fluid amount held by the tank.
      */
     @Override
-    public int getTankCapacity(final int tank) {
+    public long getTankCapacity(final int tank) {
         return this.getCapacity();
     }
 
@@ -182,17 +182,17 @@ public class FluidTank
      * Fills fluid into internal tanks, distribution is left entirely to the IFluidHandler.
      *
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be filled.
-     * @param action   If SIMULATE, fill will only be simulated.
+     * @param sim   If SIMULATE, fill will only be simulated.
      * @return Amount of resource that was (or would have been, if simulated) filled.
      */
     @Override
-    public int fill(final FluidStack resource, final FluidAction action) {
+    public long fill(final FluidStack resource, final boolean sim) {
 
         if (resource.isEmpty() || !this.isFluidValid(resource)) {
             return 0;
         }
 
-        if (action.simulate()) {
+        if (sim) {
 
             if (this._content.isEmpty()) {
                 return Math.min(this._capacity, resource.getAmount());
@@ -216,7 +216,7 @@ public class FluidTank
             return 0;
         }
 
-        int filled = this._capacity - this._content.getAmount();
+        long filled = this._capacity - this._content.getAmount();
 
         if (resource.getAmount() < filled) {
 
@@ -239,19 +239,19 @@ public class FluidTank
      * Drains fluid out of internal tanks, distribution is left entirely to the IFluidHandler.
      *
      * @param resource FluidStack representing the Fluid and maximum amount of fluid to be drained.
-     * @param action   If SIMULATE, drain will only be simulated.
+     * @param sim   If SIMULATE, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
     @Nonnull
     @Override
-    public FluidStack drain(final FluidStack resource, final FluidAction action) {
+    public FluidStack drain(final FluidStack resource, final boolean sim) {
 
         if (resource.isEmpty() || !resource.isFluidEqual(this._content)) {
             return FluidStack.EMPTY;
         }
 
-        return this.drain(resource.getAmount(), action);
+        return this.drain(resource.getAmount(), sim);
     }
 
     /**
@@ -260,18 +260,18 @@ public class FluidTank
      * This method is not Fluid-sensitive.
      *
      * @param maxDrain Maximum amount of fluid to drain.
-     * @param action   If SIMULATE, drain will only be simulated.
+     * @param sim   If SIMULATE, drain will only be simulated.
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
     @Nonnull
     @Override
-    public FluidStack drain(final int maxDrain, final FluidAction action) {
+    public FluidStack drain(final long maxDrain, final boolean sim) {
 
-        final int drained = Math.min(this._content.getAmount(), maxDrain);
+        final long drained = Math.min(this._content.getAmount(), maxDrain);
         final FluidStack stack = new FluidStack(this._content, drained);
 
-        if (action.execute() && drained > 0) {
+        if (!sim && drained > 0) {
 
             this._content.shrink(drained);
             this.onChange(ChangeType.Shrunk, 0);
@@ -321,7 +321,7 @@ public class FluidTank
     @Override
     public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
 
-        data.putInt("capacity", this.getCapacity());
+        data.putLong("capacity", this.getCapacity());
         data.put("content", FluidHelper.stackToNBT(this.getFluid()));
         return data;
     }
@@ -334,7 +334,7 @@ public class FluidTank
      * @param messages add your debug messages here
      */
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
 
         messages.addUnlocalized("Capacity: %d", this.getCapacity());
         messages.addUnlocalized(FluidHelper.toStringHelper(this._content));

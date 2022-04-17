@@ -21,10 +21,10 @@ package it.zerono.mods.zerocore.lib.client.particle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public abstract class SpiralParticle
         extends Particle {
 

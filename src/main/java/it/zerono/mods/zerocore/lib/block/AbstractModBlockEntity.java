@@ -18,6 +18,10 @@
 
 package it.zerono.mods.zerocore.lib.block;
 
+import dev.cafeteria.fakeplayerapi.server.FakeServerPlayer;
+import io.github.fabricators_of_create.porting_lib.block.CustomDataPacketHandlingBlockEntity;
+import io.github.fabricators_of_create.porting_lib.block.CustomUpdateTagHandlingBlockEntity;
+import io.github.fabricators_of_create.porting_lib.util.NetworkUtil;
 import it.zerono.mods.zerocore.internal.network.Network;
 import it.zerono.mods.zerocore.internal.network.TileCommandMessage;
 import it.zerono.mods.zerocore.lib.CodeHelper;
@@ -29,6 +33,7 @@ import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import it.zerono.mods.zerocore.lib.event.Event;
 import it.zerono.mods.zerocore.lib.event.IEvent;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
+import net.fabricmc.api.EnvType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -43,9 +48,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -59,7 +61,7 @@ import java.util.stream.Stream;
  */
 public abstract class AbstractModBlockEntity
         extends BlockEntity
-        implements IBlockStateUpdater, ISyncableEntity, IDebuggable {
+        implements IBlockStateUpdater, ISyncableEntity, IDebuggable, CustomUpdateTagHandlingBlockEntity, CustomDataPacketHandlingBlockEntity {
 
     @Deprecated
     public final IEvent<Runnable> DataUpdate;
@@ -434,7 +436,7 @@ public abstract class AbstractModBlockEntity
      * @param name the command name
      * @param parameters the parameters for the command, if any
      */
-    public void handleCommand(final LogicalSide source, final String name, final CompoundTag parameters) {
+    public void handleCommand(final EnvType source, final String name, final CompoundTag parameters) {
         this._commandDispatcher.dispatch(source, name, parameters);
     }
 
@@ -559,7 +561,7 @@ public abstract class AbstractModBlockEntity
     //region IDebuggable
 
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
         messages.addUnlocalized("Tile Entity class: %1$s", this.getClass().getSimpleName());
     }
 
@@ -588,11 +590,11 @@ public abstract class AbstractModBlockEntity
 
         return this.callOnLogicalServer(() -> {
 
-            if (this instanceof MenuProvider && !(player instanceof FakePlayer)) {
+            if (this instanceof MenuProvider && !(player instanceof FakeServerPlayer)) {
 
                 final Consumer<FriendlyByteBuf> positionWriter = buffer -> buffer.writeBlockPos(this.getBlockPos());
 
-                NetworkHooks.openGui(player, (MenuProvider) this, positionWriter.andThen(extraDataWriter));
+                NetworkUtil.openGui(player, (MenuProvider) this, positionWriter.andThen(extraDataWriter));
                 return true;
 
             } else {

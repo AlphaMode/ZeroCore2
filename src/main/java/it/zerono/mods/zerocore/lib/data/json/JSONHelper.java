@@ -24,6 +24,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +32,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
 
@@ -391,8 +391,8 @@ public final class JSONHelper {
 
         final ResourceLocation id = jsonGetResourceLocation(json, elementName);
 
-        if (ForgeRegistries.ITEMS.containsKey(id)) {
-            return Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(id));
+        if (Registry.ITEM.containsKey(id)) {
+            return Objects.requireNonNull(Registry.ITEM.get(id));
         } else {
             throw new JsonSyntaxException("JSON element is not a valid Item: " + elementName);
         }
@@ -420,8 +420,8 @@ public final class JSONHelper {
 
         final ResourceLocation id = jsonGetResourceLocation(json, elementName);
 
-        if (ForgeRegistries.FLUIDS.containsKey(id)) {
-            return Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(id));
+        if (Registry.FLUID.containsKey(id)) {
+            return Objects.requireNonNull(Registry.FLUID.get(id));
         } else {
             throw new JsonSyntaxException("JSON element is not a valid Fluid: " + elementName);
         }

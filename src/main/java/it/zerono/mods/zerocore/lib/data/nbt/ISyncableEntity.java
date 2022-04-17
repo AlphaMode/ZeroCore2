@@ -21,8 +21,8 @@ package it.zerono.mods.zerocore.lib.data.nbt;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import it.zerono.mods.zerocore.lib.item.inventory.ItemStackHolder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.NonNullConsumer;
-import net.minecraftforge.items.ItemStackHandler;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 
 /**
  * Sync a generic entity from/to NBT

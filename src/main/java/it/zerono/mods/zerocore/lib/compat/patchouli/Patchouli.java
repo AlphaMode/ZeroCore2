@@ -28,8 +28,8 @@ import it.zerono.mods.zerocore.lib.compat.patchouli.component.standardpage.Smelt
 import it.zerono.mods.zerocore.lib.compat.patchouli.component.standardpage.Spotlight;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import io.github.fabricators_of_create.porting_lib.model.EmptyModelData;
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
 import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.PatchouliAPI;
 import vazkii.patchouli.client.book.template.BookTemplate;

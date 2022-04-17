@@ -23,7 +23,7 @@ import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPar
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
 
 import javax.annotation.Nonnull;
 

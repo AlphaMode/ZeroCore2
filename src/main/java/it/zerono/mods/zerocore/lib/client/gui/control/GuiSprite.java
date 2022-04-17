@@ -22,7 +22,7 @@ import it.zerono.mods.zerocore.ZeroCore;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteTextureMap;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
-import net.minecraftforge.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 
 import javax.annotation.Nullable;
 import java.util.Optional;

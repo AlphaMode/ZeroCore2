@@ -24,10 +24,8 @@ import it.zerono.mods.zerocore.internal.client.debug.VoxelShapeHighlighter;
 import it.zerono.mods.zerocore.lib.data.Flags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.Mod;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import java.util.Collections;
 import java.util.Map;
 
@@ -44,7 +42,7 @@ public class DebugHelper {
         None
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public static void initVoxelShapeHighlighter() {
 
         if (!isVoxelShapeHighlighterEnabled()) {

@@ -21,7 +21,7 @@ import it.zerono.mods.zerocore.lib.network.AbstractModMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.common.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.Objects;

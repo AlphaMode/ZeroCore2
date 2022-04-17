@@ -30,16 +30,16 @@ import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockCon
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.NonNullSupplier;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboidMultiblockController<Controller> & IMultiblockMachine,
                                                 T extends AbstractMultiblockEntity<Controller> & MenuProvider,
                                                 C extends ModTileContainer<T>>

@@ -41,6 +41,7 @@
 
 package it.zerono.mods.zerocore.lib.multiblock;
 
+import io.github.fabricators_of_create.porting_lib.block.ChunkUnloadListeningBlockEntity;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceArraySet;
 import it.zerono.mods.zerocore.internal.Log;
@@ -57,7 +58,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fml.LogicalSide;
+import net.fabricmc.api.EnvType;
 
 import java.util.Collections;
 import java.util.List;
@@ -74,7 +75,7 @@ import java.util.function.Predicate;
 @SuppressWarnings({"WeakerAccess"})
 public abstract class AbstractMultiblockPart<Controller extends IMultiblockController<Controller>>
         extends AbstractModBlockEntity
-        implements IMultiblockPart<Controller>, IDebuggable {
+        implements IMultiblockPart<Controller>, IDebuggable, ChunkUnloadListeningBlockEntity {
 
     //region AbstractMultiblockPart
 
@@ -430,7 +431,7 @@ public abstract class AbstractMultiblockPart<Controller extends IMultiblockContr
     //region IDebuggable
 
     @Override
-    public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
+    public void getDebugMessages(final EnvType side, final IDebugMessages messages) {
 
         super.getDebugMessages(side, messages);
         CodeHelper.optionalIfPresentOrElse(this.getMultiblockController(),
@@ -438,7 +439,7 @@ public abstract class AbstractMultiblockPart<Controller extends IMultiblockContr
                 () -> messages.addUnlocalized("Part not attached to a controller"));
     }
 
-    private void getControllerDebugMessages(final LogicalSide side, final Controller controller, final IDebugMessages messages) {
+    private void getControllerDebugMessages(final EnvType side, final Controller controller, final IDebugMessages messages) {
 
         messages.addUnlocalized("Multiblock controller class: %1$s", controller.getClass().getSimpleName());
         //noinspection AutoBoxing
@@ -485,7 +486,6 @@ public abstract class AbstractMultiblockPart<Controller extends IMultiblockContr
     @Override
     public void onChunkUnloaded() {
 
-        super.onChunkUnloaded();
         this.detachSelf(true);
     }
 

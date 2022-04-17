@@ -19,13 +19,13 @@
 package it.zerono.mods.zerocore.lib.client.render;
 
 import com.google.common.collect.Lists;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Shape implements /*IVertexSource*/ IVertexSequence {
 

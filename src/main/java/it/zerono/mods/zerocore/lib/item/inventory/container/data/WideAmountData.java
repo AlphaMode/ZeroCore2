@@ -20,8 +20,8 @@ package it.zerono.mods.zerocore.lib.item.inventory.container.data;
 
 import it.zerono.mods.zerocore.lib.data.WideAmount;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.common.util.NonNullConsumer;
-import net.minecraftforge.common.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
 
 import javax.annotation.Nullable;
 

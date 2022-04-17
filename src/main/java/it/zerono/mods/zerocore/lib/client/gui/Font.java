@@ -19,10 +19,10 @@
 package it.zerono.mods.zerocore.lib.client.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class Font {
 
     public static final Font MINECRAFT_STANDARD_FONT = new Font(Minecraft.getInstance().font);

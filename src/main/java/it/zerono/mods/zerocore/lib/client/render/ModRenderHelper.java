@@ -23,6 +23,10 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
+import io.github.fabricators_of_create.porting_lib.model.IModelData;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
+import io.github.fabricators_of_create.porting_lib.util.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.util.PortingHooks;
 import it.zerono.mods.zerocore.ZeroCore;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.IRichText;
@@ -34,6 +38,10 @@ import it.zerono.mods.zerocore.lib.data.geometry.Point;
 import it.zerono.mods.zerocore.lib.data.geometry.Rectangle;
 import it.zerono.mods.zerocore.lib.data.geometry.Vector3d;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.GameRenderer;
@@ -55,19 +63,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.ForgeModelBakery;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.common.util.NonNullSupplier;
-import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.IntFunction;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 @SuppressWarnings("WeakerAccess")
 public final class ModRenderHelper {
 
@@ -88,7 +90,7 @@ public final class ModRenderHelper {
 
     @SuppressWarnings("ConstantConditions")
     public static UnbakedModel getModel(final ResourceLocation location) {
-        return ForgeModelBakery.instance().getModelOrMissing(location);
+        return PortingHooks.getModelOrMissing(location);
     }
 
     public static BakedModel getModel(final BlockState state) {
@@ -127,19 +129,19 @@ public final class ModRenderHelper {
     }
 
     public static TextureAtlasSprite getFluidStillSprite(final Fluid fluid) {
-        return ModRenderHelper.getTextureSprite(fluid.getAttributes().getStillTexture());
+        return FluidVariantRendering.getSprite(FluidVariant.of(fluid));
     }
 
     public static TextureAtlasSprite getFluidStillSprite(final FluidStack fluid) {
-        return ModRenderHelper.getTextureSprite(fluid.getFluid().getAttributes().getStillTexture(fluid));
+        return FluidVariantRendering.getSprite(fluid.getType());
     }
 
     public static TextureAtlasSprite getFluidFlowingSprite(final Fluid fluid) {
-        return ModRenderHelper.getTextureSprite(fluid.getAttributes().getFlowingTexture());
+        return FluidVariantRendering.getSprites(FluidVariant.of(fluid))[1];
     }
 
     public static TextureAtlasSprite getFluidFlowingSprite(final FluidStack fluid) {
-        return ModRenderHelper.getTextureSprite(fluid.getFluid().getAttributes().getFlowingTexture(fluid));
+        return FluidVariantRendering.getSprites(fluid.getType())[1];
     }
 
     public static TextureAtlasSprite getMissingTexture(final ResourceLocation atlasName) {
@@ -152,18 +154,15 @@ public final class ModRenderHelper {
 
     @Nullable
     public static TextureAtlasSprite getFluidOverlaySprite(final Fluid fluid) {
-
-        final ResourceLocation rl = fluid.getAttributes().getOverlayTexture();
-
-        return null != rl ? ModRenderHelper.getTextureSprite(rl) : null;
+        return FluidVariantRendering.getSprites(FluidVariant.of(fluid))[2];
     }
 
     @Nullable
     public static TextureAtlasSprite getFluidOverlaySprite(final FluidStack fluid) {
 
-        final ResourceLocation rl = fluid.getFluid().getAttributes().getOverlayTexture();
+        final TextureAtlasSprite sprite = FluidVariantRendering.getSprites(fluid.getType())[2];
 
-        return null != rl ? ModRenderHelper.getTextureSprite(rl) : null;
+        return sprite;
     }
 
     public static ISprite getStillFluidSprite(final Fluid fluid) {

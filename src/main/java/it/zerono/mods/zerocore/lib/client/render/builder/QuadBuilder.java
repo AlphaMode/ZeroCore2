@@ -27,12 +27,12 @@ import it.zerono.mods.zerocore.lib.data.gfx.LightMap;
 import it.zerono.mods.zerocore.lib.data.gfx.UV;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.function.Supplier;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class QuadBuilder extends AbstractShapeBuilder {
 

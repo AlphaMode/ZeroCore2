@@ -22,7 +22,7 @@ import com.google.gson.JsonElement;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
+import io.github.fabricators_of_create.porting_lib.transfer.fluid.FluidStack;
 
 import java.util.Objects;
 

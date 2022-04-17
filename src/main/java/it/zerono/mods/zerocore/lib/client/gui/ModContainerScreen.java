@@ -41,8 +41,8 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +51,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class ModContainerScreen<C extends ModContainer>
         extends AbstractContainerScreen<C> {
 
