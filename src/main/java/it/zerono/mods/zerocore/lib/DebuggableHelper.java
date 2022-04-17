@@ -48,7 +48,7 @@ public final class DebuggableHelper {
             messages.add(new TextComponent("FluidStack: [")
                     .append(stack.getDisplayName())
                     .append("] ")
-                    .append(Integer.toString(stack.getAmount())));
+                    .append(Long.toString(stack.getAmount())));
         }
     }
 

@@ -18,8 +18,8 @@
 
 package it.zerono.mods.zerocore.lib.network;
 
+import it.zerono.mods.zerocore.internal.network.NetworkContext;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
 
 /**
  * A generic network message
@@ -46,9 +46,9 @@ public abstract class AbstractModMessage implements IModMessage {
     /**
      * Process the data received from the network.
      *
-     * @param messageContext context for {@link NetworkEvent}
+     * @param messageContext context for {@link NetworkContext}
      */
-    public abstract void processMessage(NetworkEvent.Context messageContext);
+    public abstract void processMessage(NetworkContext messageContext);
 
     /**
      * Construct the local message to be sent over the network.

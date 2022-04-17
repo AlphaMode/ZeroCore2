@@ -21,6 +21,7 @@ package it.zerono.mods.zerocore.internal.network;
 import com.google.common.collect.Lists;
 import it.zerono.mods.zerocore.ZeroCore;
 import it.zerono.mods.zerocore.lib.network.AbstractModMessage;
+import net.fabricmc.api.EnvType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -97,12 +98,12 @@ public class ErrorReportMessage
     /**
      * Process the data received from the network.
      *
-     * @param messageContext context for {@link NetworkEvent}
+     * @param messageContext context for {@link NetworkContext}
      */
     @Override
-    public void processMessage(final NetworkEvent.Context messageContext) {
+    public void processMessage(final NetworkContext messageContext) {
 
-        if (NetworkDirection.PLAY_TO_CLIENT == messageContext.getDirection()) {
+        if (EnvType.CLIENT == messageContext.getDirection()) {
             ZeroCore.getProxy().reportErrorToPlayer(null, this._position, this._errors);
         }
     }

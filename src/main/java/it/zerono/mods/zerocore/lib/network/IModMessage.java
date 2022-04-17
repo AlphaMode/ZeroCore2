@@ -18,8 +18,8 @@
 
 package it.zerono.mods.zerocore.lib.network;
 
+import it.zerono.mods.zerocore.internal.network.NetworkContext;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
 
 /**
  * A generic network message
@@ -36,7 +36,7 @@ public interface IModMessage {
     /**
      * Process the data received from the network.
      *
-     * @param messageContext context for {@link NetworkEvent}
+     * @param messageContext context for {@link NetworkContext}
      */
-    void processMessage(NetworkEvent.Context messageContext);
+    void processMessage(NetworkContext messageContext);
 }

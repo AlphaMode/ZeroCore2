@@ -22,6 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
+import net.minecraft.util.thread.BlockableEventLoop;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.Objects;
@@ -74,7 +75,7 @@ public class ContainerDataMessage
      * @param messageContext context for {@link NetworkEvent}
      */
     @Override
-    public void processMessage(final NetworkEvent.Context messageContext) {
+    public void processMessage(final BlockableEventLoop messageContext) {
 
         messageContext.enqueueWork(() -> {
 

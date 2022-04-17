@@ -39,6 +39,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -52,9 +53,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.util.LogicalSidedProvider;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModLoadingContext;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -455,7 +453,7 @@ public final class CodeHelper {
     }
 
     public static BlockableEventLoop<?> getThreadTaskExecutor(final EnvType side) {
-        return LogicalSidedProvider.WORKQUEUE.get(side);
+        return side == EnvType.SERVER ? ServerLifecycleHooks.getCurrentServer() : Minecraft.getInstance();
     }
 
     public static BlockableEventLoop<?> getClientThreadTaskExecutor() {

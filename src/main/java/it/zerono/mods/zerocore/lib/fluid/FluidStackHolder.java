@@ -247,7 +247,7 @@ public class FluidStackHolder
                 final FluidStack content = this.getFluidInTank(tank);
 
                 if (!content.isEmpty()) {
-                    return this.drain(FluidHelper.stackFrom(content, maxDrain), action);
+                    return this.drain(FluidHelper.stackFrom(content, maxDrain), sim);
                 }
             }
         }

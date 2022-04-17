@@ -21,6 +21,7 @@ package it.zerono.mods.zerocore.lib.item.inventory.container;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Range;
+import io.github.fabricators_of_create.porting_lib.transfer.item.wrapper.PlayerInvWrapper;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.zerono.mods.zerocore.internal.Log;
@@ -51,8 +52,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import io.github.fabricators_of_create.porting_lib.util.NonNullConsumer;
 import io.github.fabricators_of_create.porting_lib.transfer.item.IItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.items.wrapper.PlayerInvWrapper;
+import io.github.fabricators_of_create.porting_lib.transfer.item.InvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.Collections;

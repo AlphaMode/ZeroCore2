@@ -19,6 +19,7 @@
 package it.zerono.mods.zerocore.lib.network;
 
 import dev.cafeteria.fakeplayerapi.server.FakeServerPlayer;
+import it.zerono.mods.zerocore.internal.network.NetworkContext;
 import me.pepperbell.simplenetworking.SimpleChannel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -89,7 +90,7 @@ public class NetworkHandler {
      * @param message         the message to send
      * @param originalContext the message context of the original message
      */
-    public <T extends IModMessage> void sendReply(final T message, final NetworkEvent.Context originalContext) {
+    public <T extends IModMessage> void sendReply(final T message, final NetworkContext originalContext) {
         this._channel.reply(message, originalContext);
     }
 
@@ -166,9 +167,9 @@ public class NetworkHandler {
     //region internals
 
     private static <T extends IModMessage> void handleMessage(final T message,
-                                                              final Supplier<NetworkEvent.Context> contextSupplier) {
+                                                              final Supplier<NetworkContext> contextSupplier) {
 
-        final NetworkEvent.Context messageContext = contextSupplier.get();
+        final NetworkContext messageContext = contextSupplier.get();
 
         messageContext.enqueueWork(() -> message.processMessage(messageContext));
         messageContext.setPacketHandled(true);

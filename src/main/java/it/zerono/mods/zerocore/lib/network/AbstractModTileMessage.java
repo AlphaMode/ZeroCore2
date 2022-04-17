@@ -19,6 +19,7 @@
 package it.zerono.mods.zerocore.lib.network;
 
 import it.zerono.mods.zerocore.internal.Log;
+import it.zerono.mods.zerocore.internal.network.NetworkContext;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.core.BlockPos;
@@ -105,7 +106,7 @@ public abstract class AbstractModTileMessage
     }
 
     @Override
-    public void processMessage(NetworkEvent.Context messageContext) {
+    public void processMessage(NetworkContext messageContext) {
 
         final BlockPos position = this.getTileEntityPosition();
 
@@ -144,16 +145,16 @@ public abstract class AbstractModTileMessage
     //endregion
     //region internals
 
-    private Optional<Level> getWorld(final NetworkEvent.Context messageContext) {
+    private Optional<Level> getWorld(final NetworkContext messageContext) {
 
         switch (messageContext.getDirection()) {
 
             // Server -> Client
-            case PLAY_TO_CLIENT:
+            case TO_CLIENT:
                 return WorldHelper.getClientWorld();
 
             // Client -> Server
-            case PLAY_TO_SERVER: {
+            case TO_SERVER: {
 
                 final ServerPlayer player = messageContext.getSender();
 

@@ -42,33 +42,33 @@ public class WorldGenManager
 
     public static final WorldGenManager INSTANCE = new WorldGenManager();
 
-    public static Predicate<BiomeLoadingEvent> matchAll() {
-        return id -> true;
-    }
-
-    public static Predicate<BiomeLoadingEvent> matchOnly(final ResourceLocation biomeId) {
-        return event -> null != event.getName() && event.getName().equals(biomeId);
-    }
-
-    public static Predicate<BiomeLoadingEvent> anyExcept(final ResourceLocation biomeId) {
-        return event -> null == event.getName() || !event.getName().equals(biomeId);
-    }
-
-    public static Predicate<BiomeLoadingEvent> onlyNether() {
-        return event -> Biome.BiomeCategory.NETHER == event.getCategory();
-    }
-
-    public static Predicate<BiomeLoadingEvent> exceptNether() {
-        return event -> Biome.BiomeCategory.NETHER != event.getCategory();
-    }
-
-    public static Predicate<BiomeLoadingEvent> onlyTheEnd() {
-        return event -> Biome.BiomeCategory.THEEND == event.getCategory();
-    }
-
-    public static Predicate<BiomeLoadingEvent> exceptTheEnd() {
-        return event -> Biome.BiomeCategory.THEEND != event.getCategory();
-    }
+//    public static Predicate<BiomeLoadingEvent> matchAll() {
+//        return id -> true;
+//    }
+//
+//    public static Predicate<BiomeLoadingEvent> matchOnly(final ResourceLocation biomeId) {
+//        return event -> null != event.getName() && event.getName().equals(biomeId);
+//    }
+//
+//    public static Predicate<BiomeLoadingEvent> anyExcept(final ResourceLocation biomeId) {
+//        return event -> null == event.getName() || !event.getName().equals(biomeId);
+//    }
+//
+//    public static Predicate<BiomeLoadingEvent> onlyNether() {
+//        return event -> Biome.BiomeCategory.NETHER == event.getCategory();
+//    }
+//
+//    public static Predicate<BiomeLoadingEvent> exceptNether() {
+//        return event -> Biome.BiomeCategory.NETHER != event.getCategory();
+//    }
+//
+//    public static Predicate<BiomeLoadingEvent> onlyTheEnd() {
+//        return event -> Biome.BiomeCategory.THEEND == event.getCategory();
+//    }
+//
+//    public static Predicate<BiomeLoadingEvent> exceptTheEnd() {
+//        return event -> Biome.BiomeCategory.THEEND != event.getCategory();
+//    }
 
     public static OreGenRegisteredFeature oreVein(final String name, final NonNullFunction<String, ResourceLocation> idFactory,
                                                   final Supplier<ModBlock> oreBlock, final RuleTest matchRule,

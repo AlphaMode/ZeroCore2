@@ -16,6 +16,7 @@ package it.zerono.mods.zerocore.lib.datagen.provider.recipe;
  *
  */
 
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
@@ -113,7 +114,7 @@ public abstract class BaseRecipeProvider
     protected void smelting(final Consumer<FinishedRecipe> consumer, final String name,
                             final NonNullFunction<String, ResourceLocation> nameToIdConverter,
                             final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> source,
-                            final float xp, final int time, final ICondition... conditions) {
+                            final float xp, final int time, final ConditionJsonProvider... conditions) {
         conditionalBuilder(conditions)
                 .addRecipe(SimpleCookingRecipeBuilder.smelting(Ingredient.of(source.get()), result.get(), xp, time)
                         .unlockedBy("has_item", has(source.get()))::save)
@@ -205,7 +206,7 @@ public abstract class BaseRecipeProvider
         return new ModLoadedCondition(modId);
     }
 
-    protected static ConditionalRecipe.Builder conditionalBuilder(final ICondition... conditions) {
+    protected static ConditionalRecipe.Builder conditionalBuilder(final ConditionJsonProvider... conditions) {
 
         if (0 == conditions.length) {
             throw new IllegalArgumentException("No conditions were provided");
